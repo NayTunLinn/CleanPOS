@@ -9,7 +9,7 @@
     -moz-osx-font-smoothing: grayscale;
   }
   body {
-    @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100;
+    @apply bg-slate-50 text-slate-900 dark:bg-zinc-950 dark:text-zinc-50;
   }
 
   ::selection {
@@ -24,20 +24,20 @@
     @apply bg-transparent;
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-200 dark:bg-slate-700 rounded-full;
+    @apply bg-slate-200 dark:bg-zinc-700 rounded-full;
   }
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-300 dark:bg-slate-600;
+    @apply bg-slate-300 dark:bg-zinc-600;
   }
 }
 
 @layer components {
   .input-base {
-    @apply w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:shadow-glow-brand dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-brand-500 dark:focus:bg-slate-800;
+    @apply w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:shadow-glow-brand dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-brand-500 dark:focus:bg-zinc-900;
   }
 
   .input-search {
-    @apply w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-brand-500 focus:shadow-glow-brand dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-brand-500;
+    @apply w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-brand-500 focus:shadow-glow-brand dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-brand-500;
   }
 
   .badge {

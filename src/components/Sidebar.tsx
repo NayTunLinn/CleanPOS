@@ -25,14 +25,14 @@ export function Sidebar({ view, onNavigate }: SidebarProps) {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <aside className="flex h-full w-20 flex-col items-center border-r border-slate-200/70 bg-white py-5 dark:border-slate-800 dark:bg-slate-900 lg:w-64">
+    <aside className="flex h-full w-20 flex-col items-center border-r border-slate-200/70 bg-white py-5 dark:border-zinc-800 dark:bg-zinc-900 lg:w-64">
       <div className="mb-9 flex items-center gap-3 px-2">
         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-soft shadow-brand-500/20">
           <Store size={20} />
         </div>
         <div className="hidden lg:block">
           <p className="text-base font-extrabold tracking-tight text-slate-900 dark:text-white">MiniMart</p>
-          <p className="text-[11px] font-medium text-slate-400 dark:text-slate-500">POS System</p>
+          <p className="text-[11px] font-medium text-slate-400 dark:text-zinc-500">POS System</p>
         </div>
       </div>
 
@@ -47,8 +47,8 @@ export function Sidebar({ view, onNavigate }: SidebarProps) {
               className={cn(
                 'group relative flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold transition-all duration-200',
                 active
-                  ? 'bg-slate-900 text-white shadow-soft dark:bg-slate-100 dark:text-slate-900'
-                  : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white',
+                  ? 'bg-slate-900 text-white shadow-soft dark:bg-zinc-100 dark:text-zinc-900'
+                  : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-white',
               )}
             >
               <Icon size={20} className={cn('shrink-0 transition-transform duration-200', active ? 'scale-105' : 'group-hover:scale-105')} />
@@ -71,20 +71,20 @@ export function Sidebar({ view, onNavigate }: SidebarProps) {
           onClick={toggleTheme}
           className={cn(
             'mb-2 flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200',
-            'text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white',
+            'text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-white',
           )}
         >
           {theme === 'dark' ? <Sun size={18} className="shrink-0" /> : <Moon size={18} className="shrink-0" />}
           <span className="hidden lg:block">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
         </button>
 
-        <div className="flex items-center gap-2.5 rounded-xl bg-slate-50 px-3 py-2.5 transition hover:bg-slate-100/70 dark:bg-slate-800 dark:hover:bg-slate-700/70">
+        <div className="flex items-center gap-2.5 rounded-xl bg-slate-50 px-3 py-2.5 transition hover:bg-slate-100/70 dark:bg-zinc-800 dark:hover:bg-zinc-700/70">
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent-400 to-accent-600 text-sm font-bold text-white shadow-soft">
             {user?.initials ?? 'A'}
           </div>
           <div className="hidden flex-1 lg:block">
             <p className="text-xs font-bold text-slate-900 dark:text-white">{user?.name ?? 'Alex Morgan'}</p>
-            <p className="text-[11px] font-medium text-slate-400 dark:text-slate-500">{user?.role ?? 'Cashier'}</p>
+            <p className="text-[11px] font-medium text-slate-400 dark:text-zinc-500">{user?.role ?? 'Cashier'}</p>
           </div>
           <button
             onClick={logout}

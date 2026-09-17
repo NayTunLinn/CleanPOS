@@ -99,22 +99,22 @@ export function LoginView() {
       </div>
 
       {/* Right form panel */}
-      <div className="flex w-full items-center justify-center bg-slate-50 px-6 py-12 dark:bg-slate-950 lg:w-1/2">
+      <div className="flex w-full items-center justify-center bg-slate-50 px-6 py-12 dark:bg-zinc-950 lg:w-1/2">
         <div className="w-full max-w-[400px] animate-fade-in-up">
           <div className="mb-8 lg:hidden">
             <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-lg">
               <Store size={28} />
             </div>
             <h1 className="text-2xl font-bold text-slate-900 dark:text-white">MiniMart</h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400">Point of Sale System</p>
+            <p className="text-sm text-slate-500 dark:text-zinc-400">Point of Sale System</p>
           </div>
 
           <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Welcome back</h2>
-          <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400">Sign in to your account to continue</p>
+          <p className="mt-1.5 text-sm text-slate-500 dark:text-zinc-400">Sign in to your account to continue</p>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div>
-              <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
+              <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-zinc-300">Email Address</label>
               <div className="relative">
                 <Mail size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
@@ -130,8 +130,8 @@ export function LoginView() {
 
             <div>
               <div className="mb-2 flex items-center justify-between">
-                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Password</label>
-                <span className="text-xs text-slate-400 dark:text-slate-500">minimart123</span>
+                <label className="block text-sm font-semibold text-slate-700 dark:text-zinc-300">Password</label>
+                <span className="text-xs text-slate-400 dark:text-zinc-500">minimart123</span>
               </div>
               <div className="relative">
                 <Lock size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -173,8 +173,8 @@ export function LoginView() {
             </Button>
           </form>
 
-          <div className="mt-8 border-t border-slate-200 pt-6 dark:border-slate-800">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+          <div className="mt-8 border-t border-slate-200 pt-6 dark:border-zinc-800">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
               Quick Demo Access
             </p>
             <div className="space-y-2.5">
@@ -182,19 +182,19 @@ export function LoginView() {
                 <button
                   key={demo.email}
                   onClick={() => fillDemo(demo.email)}
-                  className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-left transition-all duration-200 hover:border-brand-300 hover:bg-brand-50/30 hover:shadow-soft dark:border-slate-800 dark:bg-slate-900 dark:hover:border-brand-700 dark:hover:bg-brand-950/30"
+                  className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-left transition-all duration-200 hover:border-brand-300 hover:bg-brand-50/30 hover:shadow-soft dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-brand-700 dark:hover:bg-brand-950/30"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-sm font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-sm font-bold text-slate-600 dark:bg-zinc-800 dark:text-zinc-300">
                       {demo.name.split(' ').map((w) => w[0]).join('')}
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-slate-900 dark:text-white">{demo.label}</p>
-                      <p className="text-xs text-slate-400 dark:text-slate-500">{demo.email}</p>
+                      <p className="text-xs text-slate-400 dark:text-zinc-500">{demo.email}</p>
                     </div>
                   </div>
                   <span className={cn(
-                    'rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600 transition dark:bg-slate-800 dark:text-slate-300',
+                    'rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600 transition dark:bg-zinc-800 dark:text-zinc-300',
                   )}>
                     Use
                   </span>
@@ -203,7 +203,7 @@ export function LoginView() {
             </div>
           </div>
 
-          <p className="mt-8 text-center text-xs text-slate-400 dark:text-slate-500">
+          <p className="mt-8 text-center text-xs text-slate-400 dark:text-zinc-500">
             This is a demo. No real authentication is performed.
           </p>
         </div>
