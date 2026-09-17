@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { StoreProvider } from '@/lib/store';
 import { AuthProvider, useAuth } from '@/lib/auth';
+import { ThemeProvider } from '@/lib/theme';
 import { Sidebar, type View } from '@/components/Sidebar';
 import { PosView } from '@/components/PosView';
 import { DashboardView } from '@/components/DashboardView';
@@ -17,7 +18,7 @@ function AppContent() {
 
   return (
     <StoreProvider>
-      <div className="flex h-screen overflow-hidden bg-slate-50 font-sans text-slate-900 antialiased">
+      <div className="flex h-screen overflow-hidden bg-slate-50 font-sans text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100">
         <Sidebar view={view} onNavigate={setView} />
         <main className="flex-1 overflow-hidden">
           {view === 'pos' && <PosView />}
@@ -33,9 +34,11 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
