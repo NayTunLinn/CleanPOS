@@ -1,8 +1,19 @@
 import { useState } from 'react';
-import { Lock, Mail, Eye, EyeOff, Store, ArrowRight } from 'lucide-react';
+import { Lock, Mail, Eye, EyeOff, Store, ArrowRight, ShieldCheck, Zap, BarChart3, ShoppingBag } from 'lucide-react';
 import { useAuth } from '@/lib/auth';
 import { Button } from '@/components/ui';
 import { cn } from '@/lib/utils';
+
+const DEMO_ACCOUNTS = [
+  { email: 'cashier@minimart.mm', label: 'Cashier', name: 'Alex Morgan' },
+  { email: 'admin@minimart.mm', label: 'Manager', name: 'Sarah Lee' },
+];
+
+const FEATURES = [
+  { icon: ShoppingBag, title: 'Fast Checkout', desc: 'Scan, tap, and charge in seconds' },
+  { icon: BarChart3, title: 'Live Analytics', desc: 'Real-time sales and inventory data' },
+  { icon: ShieldCheck, title: 'Secure & Reliable', desc: 'Built for daily retail operations' },
+];
 
 export function LoginView() {
   const { login } = useAuth();
@@ -33,60 +44,117 @@ export function LoginView() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-stone-100 via-stone-50 to-amber-50/40 px-4">
-      <div className="w-full max-w-[420px]">
-        <div className="mb-8 flex flex-col items-center text-center">
-          <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-stone-900 text-white shadow-lg">
-            <Store size={28} />
+    <div className="flex min-h-screen">
+      {/* Left brand panel */}
+      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-slate-900 p-12 lg:flex">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-900 to-brand-950/60" />
+        <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-brand-600/10 blur-3xl" />
+        <div className="absolute -bottom-32 -left-16 h-96 w-96 rounded-full bg-accent-500/5 blur-3xl" />
+
+        <div className="relative z-10">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-500 text-white shadow-lg shadow-brand-500/20">
+              <Store size={24} />
+            </div>
+            <div>
+              <p className="text-lg font-bold text-white">MiniMart</p>
+              <p className="text-xs text-slate-400">Point of Sale System</p>
+            </div>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-stone-900">MiniMart</h1>
-          <p className="mt-1 text-sm text-stone-500">Point of Sale System</p>
         </div>
 
-        <div className="rounded-2xl border border-stone-200/80 bg-white p-7 shadow-xl shadow-stone-200/40">
-          <h2 className="mb-1 text-lg font-bold text-stone-900">Sign In</h2>
-          <p className="mb-6 text-sm text-stone-500">Enter your credentials to continue</p>
+        <div className="relative z-10 space-y-8">
+          <div>
+            <h1 className="text-4xl font-extrabold leading-tight text-white">
+              Run your store<br />with confidence.
+            </h1>
+            <p className="mt-4 max-w-md text-base text-slate-400">
+              Complete POS solution with checkout, inventory, sales reporting,
+              and real-time analytics — all in one beautiful interface.
+            </p>
+          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-4">
+            {FEATURES.map((f) => {
+              const Icon = f.icon;
+              return (
+                <div key={f.title} className="flex items-center gap-3.5">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-brand-400 ring-1 ring-white/10">
+                    <Icon size={20} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">{f.title}</p>
+                    <p className="text-xs text-slate-400">{f.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="relative z-10 flex items-center gap-2 text-xs text-slate-500">
+          <Zap size={14} className="text-brand-400" />
+          <span>Powered by MiniMart POS · v2.0</span>
+        </div>
+      </div>
+
+      {/* Right form panel */}
+      <div className="flex w-full items-center justify-center bg-slate-50 px-6 py-12 lg:w-1/2">
+        <div className="w-full max-w-[400px] animate-fade-in-up">
+          <div className="mb-8 lg:hidden">
+            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-lg">
+              <Store size={28} />
+            </div>
+            <h1 className="text-2xl font-bold text-slate-900">MiniMart</h1>
+            <p className="text-sm text-slate-500">Point of Sale System</p>
+          </div>
+
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">Welcome back</h2>
+          <p className="mt-1.5 text-sm text-slate-500">Sign in to your account to continue</p>
+
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-stone-700">Email</label>
+              <label className="mb-2 block text-sm font-semibold text-slate-700">Email Address</label>
               <div className="relative">
-                <Mail size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
+                <Mail size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="cashier@minimart.mm"
-                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-2.5 pl-10 pr-4 text-sm text-stone-900 outline-none transition focus:border-stone-900 focus:bg-white"
+                  className="input-base pl-10"
                   required
                 />
               </div>
             </div>
 
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-stone-700">Password</label>
+              <div className="mb-2 flex items-center justify-between">
+                <label className="block text-sm font-semibold text-slate-700">Password</label>
+                <span className="text-xs text-slate-400">minimart123</span>
+              </div>
               <div className="relative">
-                <Lock size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
+                <Lock size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter password"
-                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-2.5 pl-10 pr-10 text-sm text-stone-900 outline-none transition focus:border-stone-900 focus:bg-white"
+                  placeholder="Enter your password"
+                  className="input-base pl-10 pr-10"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 transition hover:text-stone-600"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-600"
                 >
-                  {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
 
             {error && (
-              <div className="rounded-lg bg-red-50 px-3.5 py-2.5 text-sm text-red-600">
+              <div className="animate-scale-in rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-600 ring-1 ring-red-100">
                 {error}
               </div>
             )}
@@ -105,38 +173,40 @@ export function LoginView() {
             </Button>
           </form>
 
-          <div className="mt-6 border-t border-stone-100 pt-5">
-            <p className="mb-3 text-xs font-medium uppercase tracking-wide text-stone-400">
-              Demo Accounts
+          <div className="mt-8 border-t border-slate-200 pt-6">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+              Quick Demo Access
             </p>
-            <div className="space-y-2">
-              {[
-                { email: 'cashier@minimart.mm', label: 'Cashier', name: 'Alex Morgan' },
-                { email: 'admin@minimart.mm', label: 'Manager', name: 'Sarah Lee' },
-              ].map((demo) => (
+            <div className="space-y-2.5">
+              {DEMO_ACCOUNTS.map((demo) => (
                 <button
                   key={demo.email}
                   onClick={() => fillDemo(demo.email)}
-                  className={cn(
-                    'flex w-full items-center justify-between rounded-xl border border-stone-200 bg-stone-50/50 px-4 py-2.5 text-left transition hover:border-stone-300 hover:bg-stone-50',
-                  )}
+                  className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-left transition-all duration-200 hover:border-brand-300 hover:bg-brand-50/30 hover:shadow-soft"
                 >
-                  <div>
-                    <p className="text-sm font-medium text-stone-900">{demo.label} — {demo.name}</p>
-                    <p className="text-xs text-stone-400">{demo.email} · minimart123</p>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-sm font-bold text-slate-600">
+                      {demo.name.split(' ').map((w) => w[0]).join('')}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900">{demo.label}</p>
+                      <p className="text-xs text-slate-400">{demo.email}</p>
+                    </div>
                   </div>
-                  <span className="rounded-lg bg-stone-200 px-2.5 py-1 text-xs font-medium text-stone-600">
+                  <span className={cn(
+                    'rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600 transition',
+                  )}>
                     Use
                   </span>
                 </button>
               ))}
             </div>
           </div>
-        </div>
 
-        <p className="mt-6 text-center text-xs text-stone-400">
-          This is a demo. No real authentication is performed.
-        </p>
+          <p className="mt-8 text-center text-xs text-slate-400">
+            This is a demo. No real authentication is performed.
+          </p>
+        </div>
       </div>
     </div>
   );

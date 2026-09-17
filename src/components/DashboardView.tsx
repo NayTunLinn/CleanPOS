@@ -1,4 +1,4 @@
-import { TrendingUp, ShoppingBag, Receipt, Package, ArrowUpRight } from 'lucide-react';
+import { TrendingUp, ShoppingBag, Receipt, Package, ArrowUpRight, Zap } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { formatCurrency, formatTime } from '@/lib/format';
 import { Card } from '@/components/ui';
@@ -13,10 +13,10 @@ export function DashboardView() {
   const lowStock = products.filter((p) => p.stock < 15);
 
   const stats = [
-    { label: 'Total Revenue', value: formatCurrency(totalRevenue), icon: TrendingUp, accent: 'bg-emerald-50 text-emerald-600' },
-    { label: 'Orders', value: orders.length, icon: Receipt, accent: 'bg-blue-50 text-blue-600' },
-    { label: 'Items Sold', value: totalItems, icon: ShoppingBag, accent: 'bg-amber-50 text-amber-600' },
-    { label: 'Avg Order', value: formatCurrency(avgOrder), icon: ArrowUpRight, accent: 'bg-stone-100 text-stone-600' },
+    { label: 'Total Revenue', value: formatCurrency(totalRevenue), icon: TrendingUp, accent: 'bg-brand-50 text-brand-600', ring: 'ring-brand-100' },
+    { label: 'Orders', value: orders.length, icon: Receipt, accent: 'bg-blue-50 text-blue-600', ring: 'ring-blue-100' },
+    { label: 'Items Sold', value: totalItems, icon: ShoppingBag, accent: 'bg-accent-50 text-accent-600', ring: 'ring-accent-100' },
+    { label: 'Avg Order', value: formatCurrency(avgOrder), icon: ArrowUpRight, accent: 'bg-slate-100 text-slate-600', ring: 'ring-slate-200' },
   ];
 
   const topProducts = (() => {
@@ -35,55 +35,72 @@ export function DashboardView() {
   const maxRevenue = topProducts[0]?.revenue ?? 1;
 
   return (
-    <div className="h-full overflow-y-auto bg-stone-50 p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-stone-900">Dashboard</h1>
-        <p className="text-sm text-stone-500">Sales overview and performance</p>
+    <div className="h-full overflow-y-auto bg-slate-50 p-6">
+      <div className="mb-7 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">Dashboard</h1>
+          <p className="mt-0.5 text-sm font-medium text-slate-400">Sales overview and performance</p>
+        </div>
+        <div className="hidden items-center gap-2 rounded-xl bg-white px-4 py-2.5 shadow-soft sm:flex">
+          <Zap size={16} className="text-brand-500" />
+          <span className="text-xs font-semibold text-slate-600">Live data</span>
+          <span className="flex h-2 w-2 animate-pulse rounded-full bg-brand-500" />
+        </div>
       </div>
 
+      {/* Stat cards */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {stats.map((stat) => {
+        {stats.map((stat, idx) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.label} className="p-5">
+            <Card
+              key={stat.label}
+              className="animate-fade-in-up p-5 hover:shadow-soft-md"
+              style={{ animationDelay: `${idx * 60}ms` }}
+            >
               <div className="flex items-center justify-between">
-                <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', stat.accent)}>
+                <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl ring-1', stat.accent, stat.ring)}>
                   <Icon size={20} />
                 </div>
               </div>
-              <p className="mt-3 text-2xl font-bold text-stone-900">{stat.value}</p>
-              <p className="text-sm text-stone-500">{stat.label}</p>
+              <p className="mt-3.5 text-2xl font-extrabold tracking-tight text-slate-900">{stat.value}</p>
+              <p className="text-sm font-medium text-slate-400">{stat.label}</p>
             </Card>
           );
         })}
       </div>
 
+      {/* Charts row */}
       <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card className="p-5 lg:col-span-2">
-          <h2 className="mb-4 text-base font-bold text-stone-900">Top Products</h2>
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="text-base font-bold text-slate-900">Top Products</h2>
+            <span className="badge bg-slate-100 text-slate-500">By Revenue</span>
+          </div>
           {topProducts.length === 0 ? (
-            <div className="flex h-40 items-center justify-center text-sm text-stone-400">
-              No sales yet — complete an order to see data
+            <div className="flex h-40 flex-col items-center justify-center text-center">
+              <TrendingUp size={32} className="mb-2 text-slate-200" />
+              <p className="text-sm font-medium text-slate-400">No sales yet — complete an order to see data</p>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-3.5">
               {topProducts.map((p, idx) => (
                 <div key={p.name} className="flex items-center gap-3">
-                  <span className="w-5 text-sm font-bold text-stone-400">{idx + 1}</span>
+                  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-slate-100 text-xs font-bold text-slate-500">{idx + 1}</span>
                   <span className="text-2xl">{p.emoji}</span>
                   <div className="flex-1">
                     <div className="flex justify-between text-sm">
-                      <span className="font-medium text-stone-900">{p.name}</span>
-                      <span className="text-stone-500">{formatCurrency(p.revenue)}</span>
+                      <span className="font-semibold text-slate-900">{p.name}</span>
+                      <span className="font-bold text-slate-700">{formatCurrency(p.revenue)}</span>
                     </div>
-                    <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-stone-100">
+                    <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-slate-100">
                       <div
-                        className="h-full rounded-full bg-stone-900 transition-all duration-500"
+                        className="h-full rounded-full bg-gradient-to-r from-brand-400 to-brand-600 transition-all duration-700"
                         style={{ width: `${(p.revenue / maxRevenue) * 100}%` }}
                       />
                     </div>
                   </div>
-                  <span className="w-12 text-right text-xs text-stone-400">{p.qty} sold</span>
+                  <span className="w-14 text-right text-xs font-medium text-slate-400">{p.qty} sold</span>
                 </div>
               ))}
             </div>
@@ -91,28 +108,31 @@ export function DashboardView() {
         </Card>
 
         <Card className="p-5">
-          <div className="mb-4 flex items-center gap-2">
-            <Package size={18} className="text-stone-400" />
-            <h2 className="text-base font-bold text-stone-900">Low Stock</h2>
+          <div className="mb-5 flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent-50 text-accent-600">
+              <Package size={16} />
+            </div>
+            <h2 className="text-base font-bold text-slate-900">Low Stock</h2>
           </div>
           {lowStock.length === 0 ? (
-            <div className="flex h-40 items-center justify-center text-sm text-stone-400">
-              All products well stocked
+            <div className="flex h-40 flex-col items-center justify-center text-center">
+              <Package size={32} className="mb-2 text-slate-200" />
+              <p className="text-sm font-medium text-slate-400">All products well stocked</p>
             </div>
           ) : (
             <div className="space-y-2">
               {lowStock.map((p) => (
-                <div key={p.id} className="flex items-center gap-3 rounded-xl bg-stone-50 p-2.5">
+                <div key={p.id} className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/60 p-2.5 transition hover:border-slate-200">
                   <span className="text-xl">{p.emoji}</span>
-                  <span className="flex-1 text-sm font-medium text-stone-900">{p.name}</span>
+                  <span className="flex-1 text-sm font-semibold text-slate-900">{p.name}</span>
                   <span
                     className={cn(
-                      'rounded-lg px-2 py-0.5 text-xs font-bold',
+                      'badge',
                       p.stock === 0
-                        ? 'bg-red-100 text-red-600'
+                        ? 'bg-red-50 text-red-600'
                         : p.stock < 10
-                          ? 'bg-amber-100 text-amber-700'
-                          : 'bg-stone-100 text-stone-500',
+                          ? 'bg-accent-50 text-accent-700'
+                          : 'bg-slate-100 text-slate-500',
                     )}
                   >
                     {p.stock} left
@@ -124,26 +144,28 @@ export function DashboardView() {
         </Card>
       </div>
 
+      {/* Recent orders */}
       <Card className="mt-6 p-5">
-        <h2 className="mb-4 text-base font-bold text-stone-900">Recent Orders</h2>
+        <h2 className="mb-4 text-base font-bold text-slate-900">Recent Orders</h2>
         {orders.length === 0 ? (
-          <div className="flex h-40 items-center justify-center text-sm text-stone-400">
-            No orders yet
+          <div className="flex h-40 flex-col items-center justify-center text-center">
+            <Receipt size={32} className="mb-2 text-slate-200" />
+            <p className="text-sm font-medium text-slate-400">No orders yet</p>
           </div>
         ) : (
           <div className="space-y-2">
             {orders.slice(0, 6).map((o) => (
-              <div key={o.id} className="flex items-center justify-between rounded-xl border border-stone-100 p-3">
+              <div key={o.id} className="flex items-center justify-between rounded-xl border border-slate-100 p-3 transition hover:border-slate-200 hover:bg-slate-50/50">
                 <div className="flex items-center gap-3">
-                  <span className="rounded-lg bg-stone-100 px-2.5 py-1 text-xs font-bold text-stone-600">{o.id}</span>
+                  <span className="rounded-lg bg-slate-900 px-2.5 py-1 text-xs font-bold text-white">{o.id}</span>
                   <div>
-                    <p className="text-sm font-medium text-stone-900">
-                      {o.items.reduce((s, i) => s + i.quantity, 0)} items · {o.paymentMethod}
+                    <p className="text-sm font-semibold text-slate-900">
+                      {o.items.reduce((s, i) => s + i.quantity, 0)} items · <span className="capitalize">{o.paymentMethod}</span>
                     </p>
-                    <p className="text-xs text-stone-400">{formatTime(o.createdAt)}</p>
+                    <p className="text-xs font-medium text-slate-400">{formatTime(o.createdAt)}</p>
                   </div>
                 </div>
-                <span className="text-sm font-bold text-stone-900">{formatCurrency(o.total)}</span>
+                <span className="text-sm font-bold text-slate-900">{formatCurrency(o.total)}</span>
               </div>
             ))}
           </div>

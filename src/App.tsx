@@ -17,7 +17,7 @@ function AppContent() {
 
   return (
     <StoreProvider>
-      <div className="flex h-screen overflow-hidden bg-stone-50 font-sans text-stone-900 antialiased">
+      <div className="flex h-screen overflow-hidden bg-slate-50 font-sans text-slate-900 antialiased">
         <Sidebar view={view} onNavigate={setView} />
         <main className="flex-1 overflow-hidden">
           {view === 'pos' && <PosView />}

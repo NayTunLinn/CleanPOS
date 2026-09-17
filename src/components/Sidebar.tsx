@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, ShoppingCart, Package, Receipt, BarChart3, LogOut } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, Package, Receipt, BarChart3, LogOut, Store } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { useAuth } from '@/lib/auth';
 
@@ -23,17 +23,18 @@ export function Sidebar({ view, onNavigate }: SidebarProps) {
   const { user, logout } = useAuth();
 
   return (
-    <aside className="flex h-full w-20 flex-col items-center border-r border-stone-200 bg-white py-5 lg:w-60">
-      <div className="mb-8 flex items-center gap-2.5">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-stone-900 text-white">
-          <span className="text-lg font-bold">M</span>
+    <aside className="flex h-full w-20 flex-col items-center border-r border-slate-200/70 bg-white py-5 lg:w-64">
+      <div className="mb-9 flex items-center gap-3 px-2">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-soft shadow-brand-500/20">
+          <Store size={20} />
         </div>
-        <span className="hidden text-lg font-bold tracking-tight text-stone-900 lg:block">
-          MiniMart
-        </span>
+        <div className="hidden lg:block">
+          <p className="text-base font-extrabold tracking-tight text-slate-900">MiniMart</p>
+          <p className="text-[11px] font-medium text-slate-400">POS System</p>
+        </div>
       </div>
 
-      <nav className="flex w-full flex-1 flex-col gap-1 px-3">
+      <nav className="flex w-full flex-1 flex-col gap-1.5 px-3">
         {NAV.map((item) => {
           const active = view === item.id;
           const Icon = item.icon;
@@ -42,18 +43,21 @@ export function Sidebar({ view, onNavigate }: SidebarProps) {
               key={item.id}
               onClick={() => onNavigate(item.id)}
               className={cn(
-                'group relative flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-all duration-150',
+                'group relative flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold transition-all duration-200',
                 active
-                  ? 'bg-stone-900 text-white'
-                  : 'text-stone-500 hover:bg-stone-100 hover:text-stone-900',
+                  ? 'bg-slate-900 text-white shadow-soft'
+                  : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900',
               )}
             >
-              <Icon size={20} className="shrink-0" />
+              <Icon size={20} className={cn('shrink-0 transition-transform duration-200', active ? 'scale-105' : 'group-hover:scale-105')} />
               <span className="hidden lg:block">{item.label}</span>
               {item.id === 'pos' && cartCount > 0 && (
-                <span className="absolute right-2 top-1.5 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-emerald-500 px-1 text-[10px] font-bold text-white lg:right-3 lg:top-3">
+                <span className="absolute right-2 top-1.5 flex h-5 min-w-[20px] animate-scale-in items-center justify-center rounded-full bg-brand-500 px-1 text-[10px] font-bold text-white lg:right-3 lg:top-3">
                   {cartCount}
                 </span>
+              )}
+              {active && (
+                <span className="absolute -left-3 top-1/2 hidden h-6 w-1 -translate-y-1/2 rounded-full bg-brand-500 lg:block" />
               )}
             </button>
           );
@@ -61,20 +65,20 @@ export function Sidebar({ view, onNavigate }: SidebarProps) {
       </nav>
 
       <div className="w-full px-3">
-        <div className="flex items-center gap-2.5 rounded-xl bg-stone-50 px-3 py-2.5">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-500 text-sm font-bold text-white">
+        <div className="flex items-center gap-2.5 rounded-xl bg-slate-50 px-3 py-2.5 transition hover:bg-slate-100/70">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent-400 to-accent-600 text-sm font-bold text-white shadow-soft">
             {user?.initials ?? 'A'}
           </div>
           <div className="hidden flex-1 lg:block">
-            <p className="text-xs font-semibold text-stone-900">{user?.name ?? 'Alex Morgan'}</p>
-            <p className="text-[11px] text-stone-500">{user?.role ?? 'Cashier'}</p>
+            <p className="text-xs font-bold text-slate-900">{user?.name ?? 'Alex Morgan'}</p>
+            <p className="text-[11px] font-medium text-slate-400">{user?.role ?? 'Cashier'}</p>
           </div>
           <button
             onClick={logout}
-            className="text-stone-400 transition hover:text-red-500 lg:ml-auto"
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition hover:bg-red-50 hover:text-red-500 lg:ml-auto"
             title="Sign out"
           >
-            <LogOut size={17} />
+            <LogOut size={16} />
           </button>
         </div>
       </div>

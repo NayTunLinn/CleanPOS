@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { TrendingUp, DollarSign, CreditCard, Banknote, Calendar, Download } from 'lucide-react';
+import { TrendingUp, DollarSign, CreditCard, Banknote, Calendar, Download, ShoppingBag, BarChart3 } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { formatCurrency, formatDate } from '@/lib/format';
 import { Card, Button } from '@/components/ui';
@@ -75,10 +75,10 @@ export function SalesView() {
   const maxDailyRevenue = Math.max(...dailyBreakdown.map((d) => d[1].revenue), 1);
 
   const stats = [
-    { label: 'Total Sales', value: formatCurrency(totalRevenue), icon: DollarSign, accent: 'bg-emerald-50 text-emerald-600' },
-    { label: 'Net Revenue', value: formatCurrency(totalRevenue - totalTax), icon: TrendingUp, accent: 'bg-blue-50 text-blue-600' },
-    { label: 'Tax Collected', value: formatCurrency(totalTax), icon: Calendar, accent: 'bg-amber-50 text-amber-600' },
-    { label: 'Items Sold', value: totalItems, icon: TrendingUp, accent: 'bg-stone-100 text-stone-600' },
+    { label: 'Total Sales', value: formatCurrency(totalRevenue), icon: DollarSign, accent: 'bg-brand-50 text-brand-600', ring: 'ring-brand-100' },
+    { label: 'Net Revenue', value: formatCurrency(totalRevenue - totalTax), icon: TrendingUp, accent: 'bg-blue-50 text-blue-600', ring: 'ring-blue-100' },
+    { label: 'Tax Collected', value: formatCurrency(totalTax), icon: Calendar, accent: 'bg-accent-50 text-accent-600', ring: 'ring-accent-100' },
+    { label: 'Items Sold', value: totalItems, icon: ShoppingBag, accent: 'bg-slate-100 text-slate-600', ring: 'ring-slate-200' },
   ];
 
   const handleExport = () => {
@@ -100,23 +100,23 @@ export function SalesView() {
   };
 
   return (
-    <div className="h-full overflow-y-auto bg-stone-50 p-6">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="h-full overflow-y-auto bg-slate-50 p-6">
+      <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-stone-900">Sales Report</h1>
-          <p className="text-sm text-stone-500">Track revenue and performance</p>
+          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">Sales Report</h1>
+          <p className="mt-0.5 text-sm font-medium text-slate-400">Track revenue and performance</p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex rounded-xl bg-white p-1 shadow-sm">
+          <div className="flex rounded-xl border border-slate-200 bg-white p-1 shadow-soft">
             {PERIODS.map((p) => (
               <button
                 key={p.id}
                 onClick={() => setPeriod(p.id)}
                 className={cn(
-                  'rounded-lg px-3 py-1.5 text-sm font-medium transition',
+                  'rounded-lg px-3.5 py-1.5 text-sm font-semibold transition-all duration-200',
                   period === p.id
-                    ? 'bg-stone-900 text-white'
-                    : 'text-stone-500 hover:text-stone-900',
+                    ? 'bg-slate-900 text-white shadow-soft'
+                    : 'text-slate-500 hover:text-slate-900',
                 )}
               >
                 {p.label}
@@ -129,43 +129,57 @@ export function SalesView() {
         </div>
       </div>
 
+      {/* Stat cards */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {stats.map((stat) => {
+        {stats.map((stat, idx) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.label} className="p-5">
-              <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', stat.accent)}>
+            <Card
+              key={stat.label}
+              className="animate-fade-in-up p-5 hover:shadow-soft-md"
+              style={{ animationDelay: `${idx * 60}ms` }}
+            >
+              <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl ring-1', stat.accent, stat.ring)}>
                 <Icon size={20} />
               </div>
-              <p className="mt-3 text-2xl font-bold text-stone-900">{stat.value}</p>
-              <p className="text-sm text-stone-500">{stat.label}</p>
+              <p className="mt-3.5 text-2xl font-extrabold tracking-tight text-slate-900">{stat.value}</p>
+              <p className="text-sm font-medium text-slate-400">{stat.label}</p>
             </Card>
           );
         })}
       </div>
 
+      {/* Charts row */}
       <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Card className="p-5">
-          <h2 className="mb-4 text-base font-bold text-stone-900">Revenue by Category</h2>
+          <div className="mb-5 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
+                <BarChart3 size={16} />
+              </div>
+              <h2 className="text-base font-bold text-slate-900">Revenue by Category</h2>
+            </div>
+          </div>
           {categoryBreakdown.length === 0 ? (
-            <div className="flex h-40 items-center justify-center text-sm text-stone-400">
-              No sales data for this period
+            <div className="flex h-40 flex-col items-center justify-center text-center">
+              <BarChart3 size={32} className="mb-2 text-slate-200" />
+              <p className="text-sm font-medium text-slate-400">No sales data for this period</p>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {categoryBreakdown.map(([category, data]) => (
                 <div key={category} className="flex items-center gap-3">
-                  <span className="w-24 shrink-0 text-sm font-medium text-stone-700">{category}</span>
+                  <span className="w-24 shrink-0 text-sm font-semibold text-slate-700">{category}</span>
                   <div className="flex-1">
-                    <div className="h-2.5 overflow-hidden rounded-full bg-stone-100">
+                    <div className="h-2.5 overflow-hidden rounded-full bg-slate-100">
                       <div
-                        className="h-full rounded-full bg-stone-900 transition-all duration-500"
+                        className="h-full rounded-full bg-gradient-to-r from-brand-400 to-brand-600 transition-all duration-700"
                         style={{ width: `${(data.revenue / maxCatRevenue) * 100}%` }}
                       />
                     </div>
                   </div>
-                  <span className="w-20 text-right text-sm font-semibold text-stone-900">{formatCurrency(data.revenue)}</span>
-                  <span className="w-14 text-right text-xs text-stone-400">{data.qty} qty</span>
+                  <span className="w-20 text-right text-sm font-bold text-slate-900">{formatCurrency(data.revenue)}</span>
+                  <span className="w-14 text-right text-xs font-medium text-slate-400">{data.qty} qty</span>
                 </div>
               ))}
             </div>
@@ -173,43 +187,44 @@ export function SalesView() {
         </Card>
 
         <Card className="p-5">
-          <h2 className="mb-4 text-base font-bold text-stone-900">Payment Methods</h2>
+          <h2 className="mb-5 text-base font-bold text-slate-900">Payment Methods</h2>
           {filteredOrders.length === 0 ? (
-            <div className="flex h-40 items-center justify-center text-sm text-stone-400">
-              No sales data for this period
+            <div className="flex h-40 flex-col items-center justify-center text-center">
+              <CreditCard size={32} className="mb-2 text-slate-200" />
+              <p className="text-sm font-medium text-slate-400">No sales data for this period</p>
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="flex items-center gap-4 rounded-xl bg-stone-50 p-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-stone-900 text-white">
+              <div className="flex items-center gap-4 rounded-xl border border-slate-100 bg-slate-50/60 p-4 transition hover:border-slate-200">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-900 text-white shadow-soft">
                   <CreditCard size={20} />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-stone-600">Card Payments</p>
-                  <p className="text-xs text-stone-400">
+                  <p className="text-sm font-semibold text-slate-700">Card Payments</p>
+                  <p className="text-xs font-medium text-slate-400">
                     {filteredOrders.filter((o) => o.paymentMethod === 'card').length} orders
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-lg font-bold text-stone-900">{formatCurrency(cardRevenue)}</p>
-                  <p className="text-xs text-stone-400">
+                  <p className="text-lg font-extrabold text-slate-900">{formatCurrency(cardRevenue)}</p>
+                  <p className="text-xs font-medium text-slate-400">
                     {totalRevenue > 0 ? Math.round((cardRevenue / totalRevenue) * 100) : 0}%
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-4 rounded-xl bg-stone-50 p-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-600 text-white">
+              <div className="flex items-center gap-4 rounded-xl border border-slate-100 bg-slate-50/60 p-4 transition hover:border-slate-200">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-600 text-white shadow-soft">
                   <Banknote size={20} />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-stone-600">Cash Payments</p>
-                  <p className="text-xs text-stone-400">
+                  <p className="text-sm font-semibold text-slate-700">Cash Payments</p>
+                  <p className="text-xs font-medium text-slate-400">
                     {filteredOrders.filter((o) => o.paymentMethod === 'cash').length} orders
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-lg font-bold text-stone-900">{formatCurrency(cashRevenue)}</p>
-                  <p className="text-xs text-stone-400">
+                  <p className="text-lg font-extrabold text-slate-900">{formatCurrency(cashRevenue)}</p>
+                  <p className="text-xs font-medium text-slate-400">
                     {totalRevenue > 0 ? Math.round((cashRevenue / totalRevenue) * 100) : 0}%
                   </p>
                 </div>
@@ -219,41 +234,44 @@ export function SalesView() {
         </Card>
       </div>
 
+      {/* Daily breakdown table */}
       <Card className="mt-6 overflow-hidden">
-        <div className="border-b border-stone-100 p-5">
-          <h2 className="text-base font-bold text-stone-900">Daily Sales Breakdown</h2>
+        <div className="flex items-center justify-between border-b border-slate-100 p-5">
+          <h2 className="text-base font-bold text-slate-900">Daily Sales Breakdown</h2>
+          <span className="badge bg-slate-100 text-slate-500">{dailyBreakdown.length} days</span>
         </div>
         {dailyBreakdown.length === 0 ? (
-          <div className="flex h-40 items-center justify-center text-sm text-stone-400">
-            No sales data for this period
+          <div className="flex h-40 flex-col items-center justify-center text-center">
+            <Calendar size={32} className="mb-2 text-slate-200" />
+            <p className="text-sm font-medium text-slate-400">No sales data for this period</p>
           </div>
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-stone-100 bg-stone-50/50 text-left text-xs font-semibold uppercase tracking-wide text-stone-400">
-                <th className="px-5 py-3">Date</th>
-                <th className="px-5 py-3 text-right">Orders</th>
-                <th className="px-5 py-3 text-right">Items</th>
-                <th className="px-5 py-3 text-right">Revenue</th>
-                <th className="px-5 py-3 text-right">Share</th>
+              <tr className="border-b border-slate-100 bg-slate-50/50 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">
+                <th className="px-5 py-3.5">Date</th>
+                <th className="px-5 py-3.5 text-right">Orders</th>
+                <th className="px-5 py-3.5 text-right">Items</th>
+                <th className="px-5 py-3.5 text-right">Revenue</th>
+                <th className="px-5 py-3.5 text-right">Share</th>
               </tr>
             </thead>
             <tbody>
               {dailyBreakdown.map(([date, data]) => (
-                <tr key={date} className="border-b border-stone-50 transition hover:bg-stone-50/50">
-                  <td className="px-5 py-3 text-sm font-medium text-stone-900">{date}</td>
-                  <td className="px-5 py-3 text-right text-sm text-stone-600">{data.orders}</td>
-                  <td className="px-5 py-3 text-right text-sm text-stone-600">{data.items}</td>
-                  <td className="px-5 py-3 text-right text-sm font-bold text-stone-900">{formatCurrency(data.revenue)}</td>
-                  <td className="px-5 py-3">
+                <tr key={date} className="border-b border-slate-50 transition hover:bg-slate-50/50">
+                  <td className="px-5 py-3.5 text-sm font-semibold text-slate-900">{date}</td>
+                  <td className="px-5 py-3.5 text-right text-sm font-medium text-slate-600">{data.orders}</td>
+                  <td className="px-5 py-3.5 text-right text-sm font-medium text-slate-600">{data.items}</td>
+                  <td className="px-5 py-3.5 text-right text-sm font-extrabold text-slate-900">{formatCurrency(data.revenue)}</td>
+                  <td className="px-5 py-3.5">
                     <div className="flex items-center justify-end gap-2">
-                      <div className="h-1.5 w-24 overflow-hidden rounded-full bg-stone-100">
+                      <div className="h-1.5 w-24 overflow-hidden rounded-full bg-slate-100">
                         <div
-                          className="h-full rounded-full bg-stone-700"
+                          className="h-full rounded-full bg-gradient-to-r from-brand-400 to-brand-600"
                           style={{ width: `${(data.revenue / maxDailyRevenue) * 100}%` }}
                         />
                       </div>
-                      <span className="w-10 text-right text-xs text-stone-400">
+                      <span className="w-10 text-right text-xs font-medium text-slate-400">
                         {totalRevenue > 0 ? Math.round((data.revenue / totalRevenue) * 100) : 0}%
                       </span>
                     </div>
