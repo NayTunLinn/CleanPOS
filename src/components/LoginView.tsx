@@ -46,8 +46,8 @@ export function LoginView() {
   return (
     <div className="flex min-h-screen">
       {/* Left brand panel */}
-      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-slate-900 p-12 lg:flex">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-900 to-brand-950/60" />
+      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-zinc-900 p-12 lg:flex">
+        <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 via-zinc-900 to-brand-950/60" />
         <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-brand-600/10 blur-3xl" />
         <div className="absolute -bottom-32 -left-16 h-96 w-96 rounded-full bg-accent-500/5 blur-3xl" />
 
@@ -102,7 +102,7 @@ export function LoginView() {
       <div className="flex w-full items-center justify-center bg-slate-50 px-6 py-12 dark:bg-zinc-950 lg:w-1/2">
         <div className="w-full max-w-[400px] animate-fade-in-up">
           <div className="mb-8 lg:hidden">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-lg">
+            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-900 text-white shadow-lg">
               <Store size={28} />
             </div>
             <h1 className="text-2xl font-bold text-slate-900 dark:text-white">MiniMart</h1>
