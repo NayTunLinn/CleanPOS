@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Lock, Mail, Eye, EyeOff, Store, ArrowRight, ShieldCheck, Zap, BarChart3, ShoppingBag } from 'lucide-react';
+import { Lock, Mail, Eye, EyeOff, ArrowRight, ShieldCheck, Zap, BarChart3, ShoppingBag } from 'lucide-react';
 import { useAuth } from '@/lib/auth';
 import { Button } from '@/components/ui';
 import { cn } from '@/lib/utils';
@@ -52,15 +52,10 @@ export function LoginView() {
         <div className="absolute -bottom-32 -left-16 h-96 w-96 rounded-full bg-accent-500/5 blur-3xl" />
 
         <div className="relative z-10">
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-500 text-white shadow-lg shadow-brand-500/20">
-              <Store size={24} />
-            </div>
-            <div>
-              <p className="text-lg font-bold text-white">MiniMart</p>
-              <p className="text-xs text-slate-400">Point of Sale System</p>
-            </div>
-          </div>
+          <picture className="block h-20 w-72">
+            <img src="/assets/logos/minimartLight.png" alt="MiniMart" className="h-full w-full object-contain dark:hidden" />
+            <img src="/assets/logos/minimartDark.png" alt="MiniMart" className="hidden h-full w-full object-contain dark:block" />
+          </picture>
         </div>
 
         <div className="relative z-10 space-y-8">
@@ -102,11 +97,10 @@ export function LoginView() {
       <div className="flex w-full items-center justify-center bg-slate-50 px-6 py-12 dark:bg-zinc-950 lg:w-1/2">
         <div className="w-full max-w-[400px] animate-fade-in-up">
           <div className="mb-8 lg:hidden">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-900 text-white shadow-lg">
-              <Store size={28} />
-            </div>
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">MiniMart</h1>
-            <p className="text-sm text-slate-500 dark:text-zinc-400">Point of Sale System</p>
+            <picture className="block h-16 w-56">
+              <img src="/assets/logos/minimartLight.png" alt="MiniMart" className="h-full w-full object-contain dark:hidden" />
+              <img src="/assets/logos/minimartDark.png" alt="MiniMart" className="hidden h-full w-full object-contain dark:block" />
+            </picture>
           </div>
 
           <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Welcome back</h2>

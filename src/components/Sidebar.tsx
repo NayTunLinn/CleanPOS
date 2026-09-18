@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, ShoppingCart, Package, Receipt, BarChart3, LogOut, Store, Sun, Moon } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, Package, Receipt, BarChart3, LogOut, Sun, Moon } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { useAuth } from '@/lib/auth';
 import { useTheme } from '@/lib/theme';
@@ -26,14 +26,11 @@ export function Sidebar({ view, onNavigate }: SidebarProps) {
 
   return (
     <aside className="flex h-full w-20 flex-col items-center border-r border-slate-200/70 bg-white py-5 dark:border-zinc-800 dark:bg-zinc-900 lg:w-64">
-      <div className="mb-9 flex items-center gap-3 px-2">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-soft shadow-brand-500/20">
-          <Store size={20} />
-        </div>
-        <div className="hidden lg:block">
-          <p className="text-base font-extrabold tracking-tight text-slate-900 dark:text-white">MiniMart</p>
-          <p className="text-[11px] font-medium text-slate-400 dark:text-zinc-500">POS System</p>
-        </div>
+      <div className="mb-9 flex h-16 w-full items-center justify-center px-2">
+        <picture className="block h-12 w-14 lg:h-16 lg:w-48">
+          <img src="/assets/logos/minimartLight.png" alt="MiniMart" className="h-full w-full object-contain dark:hidden" />
+          <img src="/assets/logos/minimartDark.png" alt="MiniMart" className="hidden h-full w-full object-contain dark:block" />
+        </picture>
       </div>
 
       <nav className="flex w-full flex-1 flex-col gap-1.5 px-3">
