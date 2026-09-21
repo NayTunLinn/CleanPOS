@@ -75,10 +75,10 @@ export function SalesView() {
   const maxDailyRevenue = Math.max(...dailyBreakdown.map((d) => d[1].revenue), 1);
 
   const stats = [
-    { label: 'Total Sales', value: formatCurrency(totalRevenue), icon: DollarSign, accent: 'bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-400', ring: 'ring-brand-100 dark:ring-brand-900' },
-    { label: 'Net Revenue', value: formatCurrency(totalRevenue - totalTax), icon: TrendingUp, accent: 'bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400', ring: 'ring-blue-100 dark:ring-blue-900' },
-    { label: 'Tax Collected', value: formatCurrency(totalTax), icon: Calendar, accent: 'bg-accent-50 text-accent-600 dark:bg-accent-950 dark:text-accent-400', ring: 'ring-accent-100 dark:ring-accent-900' },
-    { label: 'Items Sold', value: totalItems, icon: ShoppingBag, accent: 'bg-slate-100 text-slate-600 dark:bg-zinc-800 dark:text-zinc-400', ring: 'ring-slate-200 dark:ring-zinc-700' },
+    { label: 'Total Sales', value: formatCurrency(totalRevenue), icon: DollarSign, accent: 'bg-brand-50 text-primary dark:bg-brand-950', ring: 'ring-brand-200/60 dark:ring-brand-800/40' },
+    { label: 'Net Revenue', value: formatCurrency(totalRevenue - totalTax), icon: TrendingUp, accent: 'bg-info/10 text-info', ring: 'ring-info/20' },
+    { label: 'Tax Collected', value: formatCurrency(totalTax), icon: Calendar, accent: 'bg-accent-50 text-accent-600 dark:bg-accent-950 dark:text-accent-400', ring: 'ring-accent-200/60 dark:ring-accent-800/40' },
+    { label: 'Items Sold', value: totalItems, icon: ShoppingBag, accent: 'bg-muted text-muted-foreground', ring: 'ring-border' },
   ];
 
   const handleExport = () => {
@@ -100,23 +100,23 @@ export function SalesView() {
   };
 
   return (
-    <div className="h-full overflow-y-auto bg-slate-50 p-6 dark:bg-zinc-950">
+    <div className="h-full overflow-y-auto bg-background p-6">
       <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Sales Report</h1>
-          <p className="mt-0.5 text-sm font-medium text-slate-400 dark:text-zinc-500">Track revenue and performance</p>
+          <h1 className="font-display text-2xl font-extrabold tracking-tight text-foreground">Sales Report</h1>
+          <p className="mt-0.5 text-sm font-medium text-muted-foreground">Track revenue and performance</p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex rounded-xl border border-slate-200 bg-white p-1 shadow-soft dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-none">
+          <div className="flex rounded-xl border border-border bg-card p-1 shadow-soft">
             {PERIODS.map((p) => (
               <button
                 key={p.id}
                 onClick={() => setPeriod(p.id)}
                 className={cn(
-                  'rounded-lg px-3.5 py-1.5 text-sm font-semibold transition-all duration-200',
+                  'rounded-lg px-3.5 py-1.5 text-sm font-semibold transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring/20',
                   period === p.id
-                    ? 'bg-slate-900 text-white shadow-soft dark:bg-zinc-100 dark:text-zinc-900'
-                    : 'text-slate-500 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white',
+                    ? 'bg-foreground text-background'
+                    : 'text-muted-foreground hover:text-foreground',
                 )}
               >
                 {p.label}
@@ -142,8 +142,8 @@ export function SalesView() {
               <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl ring-1', stat.accent, stat.ring)}>
                 <Icon size={20} />
               </div>
-              <p className="mt-3.5 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">{stat.value}</p>
-              <p className="text-sm font-medium text-slate-400 dark:text-zinc-500">{stat.label}</p>
+              <p className="mt-3.5 font-display text-2xl font-extrabold tracking-tight text-foreground">{stat.value}</p>
+              <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
             </Card>
           );
         })}
@@ -154,32 +154,32 @@ export function SalesView() {
         <Card className="p-5">
           <div className="mb-5 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-400">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-primary dark:bg-brand-950">
                 <BarChart3 size={16} />
               </div>
-              <h2 className="text-base font-bold text-slate-900 dark:text-white">Revenue by Category</h2>
+              <h2 className="font-display text-base font-bold text-foreground">Revenue by Category</h2>
             </div>
           </div>
           {categoryBreakdown.length === 0 ? (
             <div className="flex h-40 flex-col items-center justify-center text-center">
-              <BarChart3 size={32} className="mb-2 text-slate-200 dark:text-zinc-700" />
-              <p className="text-sm font-medium text-slate-400 dark:text-zinc-500">No sales data for this period</p>
+              <BarChart3 size={32} className="mb-2 text-neutral-300 dark:text-neutral-700" />
+              <p className="text-sm font-medium text-muted-foreground">No sales data for this period</p>
             </div>
           ) : (
             <div className="space-y-4">
               {categoryBreakdown.map(([category, data]) => (
                 <div key={category} className="flex items-center gap-3">
-                  <span className="w-24 shrink-0 text-sm font-semibold text-slate-700 dark:text-zinc-300">{category}</span>
+                  <span className="w-24 shrink-0 text-sm font-semibold text-foreground">{category}</span>
                   <div className="flex-1">
-                    <div className="h-2.5 overflow-hidden rounded-full bg-slate-100 dark:bg-zinc-800">
+                    <div className="h-2.5 overflow-hidden rounded-full bg-muted">
                       <div
                         className="h-full rounded-full bg-gradient-to-r from-brand-400 to-brand-600 transition-all duration-700"
                         style={{ width: `${(data.revenue / maxCatRevenue) * 100}%` }}
                       />
                     </div>
                   </div>
-                  <span className="w-20 text-right text-sm font-bold text-slate-900 dark:text-white">{formatCurrency(data.revenue)}</span>
-                  <span className="w-14 text-right text-xs font-medium text-slate-400 dark:text-zinc-500">{data.qty} qty</span>
+                  <span className="w-20 text-right text-sm font-bold text-foreground">{formatCurrency(data.revenue)}</span>
+                  <span className="w-14 text-right text-xs font-medium text-muted-foreground">{data.qty} qty</span>
                 </div>
               ))}
             </div>
@@ -187,44 +187,44 @@ export function SalesView() {
         </Card>
 
         <Card className="p-5">
-          <h2 className="mb-5 text-base font-bold text-slate-900 dark:text-white">Payment Methods</h2>
+          <h2 className="mb-5 font-display text-base font-bold text-foreground">Payment Methods</h2>
           {filteredOrders.length === 0 ? (
             <div className="flex h-40 flex-col items-center justify-center text-center">
-              <CreditCard size={32} className="mb-2 text-slate-200 dark:text-zinc-700" />
-              <p className="text-sm font-medium text-slate-400 dark:text-zinc-500">No sales data for this period</p>
+              <CreditCard size={32} className="mb-2 text-neutral-300 dark:text-neutral-700" />
+              <p className="text-sm font-medium text-muted-foreground">No sales data for this period</p>
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="flex items-center gap-4 rounded-xl border border-slate-100 bg-slate-50/60 p-4 transition hover:border-slate-200 dark:border-zinc-800 dark:bg-zinc-800/50 dark:hover:border-zinc-700">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-900 text-white shadow-soft dark:bg-zinc-100 dark:text-zinc-900">
+              <div className="flex items-center gap-4 rounded-xl border border-border bg-muted/50 p-4 transition hover:border-primary/30">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-foreground text-background shadow-soft">
                   <CreditCard size={20} />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-slate-700 dark:text-zinc-200">Card Payments</p>
-                  <p className="text-xs font-medium text-slate-400 dark:text-zinc-500">
+                  <p className="text-sm font-semibold text-foreground">Card Payments</p>
+                  <p className="text-xs font-medium text-muted-foreground">
                     {filteredOrders.filter((o) => o.paymentMethod === 'card').length} orders
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-lg font-extrabold text-slate-900 dark:text-white">{formatCurrency(cardRevenue)}</p>
-                  <p className="text-xs font-medium text-slate-400 dark:text-zinc-500">
+                  <p className="font-display text-lg font-extrabold text-foreground">{formatCurrency(cardRevenue)}</p>
+                  <p className="text-xs font-medium text-muted-foreground">
                     {totalRevenue > 0 ? Math.round((cardRevenue / totalRevenue) * 100) : 0}%
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-4 rounded-xl border border-slate-100 bg-slate-50/60 p-4 transition hover:border-slate-200 dark:border-zinc-800 dark:bg-zinc-800/50 dark:hover:border-zinc-700">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-600 text-white shadow-soft dark:bg-brand-600">
+              <div className="flex items-center gap-4 rounded-xl border border-border bg-muted/50 p-4 transition hover:border-primary/30">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-soft">
                   <Banknote size={20} />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-slate-700 dark:text-zinc-200">Cash Payments</p>
-                  <p className="text-xs font-medium text-slate-400 dark:text-zinc-500">
+                  <p className="text-sm font-semibold text-foreground">Cash Payments</p>
+                  <p className="text-xs font-medium text-muted-foreground">
                     {filteredOrders.filter((o) => o.paymentMethod === 'cash').length} orders
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-lg font-extrabold text-slate-900 dark:text-white">{formatCurrency(cashRevenue)}</p>
-                  <p className="text-xs font-medium text-slate-400 dark:text-zinc-500">
+                  <p className="font-display text-lg font-extrabold text-foreground">{formatCurrency(cashRevenue)}</p>
+                  <p className="text-xs font-medium text-muted-foreground">
                     {totalRevenue > 0 ? Math.round((cashRevenue / totalRevenue) * 100) : 0}%
                   </p>
                 </div>
@@ -236,19 +236,19 @@ export function SalesView() {
 
       {/* Daily breakdown table */}
       <Card className="mt-6 overflow-hidden">
-        <div className="flex items-center justify-between border-b border-slate-100 p-5 dark:border-zinc-800">
-          <h2 className="text-base font-bold text-slate-900 dark:text-white">Daily Sales Breakdown</h2>
-          <span className="badge bg-slate-100 text-slate-500 dark:bg-zinc-800 dark:text-zinc-400">{dailyBreakdown.length} days</span>
+        <div className="flex items-center justify-between border-b border-border p-5">
+          <h2 className="font-display text-base font-bold text-foreground">Daily Sales Breakdown</h2>
+          <span className="badge bg-muted text-muted-foreground">{dailyBreakdown.length} days</span>
         </div>
         {dailyBreakdown.length === 0 ? (
           <div className="flex h-40 flex-col items-center justify-center text-center">
-            <Calendar size={32} className="mb-2 text-slate-200 dark:text-zinc-700" />
-            <p className="text-sm font-medium text-slate-400 dark:text-zinc-500">No sales data for this period</p>
+            <Calendar size={32} className="mb-2 text-neutral-300 dark:text-neutral-700" />
+            <p className="text-sm font-medium text-muted-foreground">No sales data for this period</p>
           </div>
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-slate-100 bg-slate-50/50 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-zinc-500">
+              <tr className="border-b border-border bg-muted/50 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 <th className="px-5 py-3.5">Date</th>
                 <th className="px-5 py-3.5 text-right">Orders</th>
                 <th className="px-5 py-3.5 text-right">Items</th>
@@ -258,20 +258,20 @@ export function SalesView() {
             </thead>
             <tbody>
               {dailyBreakdown.map(([date, data]) => (
-                <tr key={date} className="border-b border-slate-50 transition hover:bg-slate-50/50 dark:border-zinc-800/50 dark:hover:bg-zinc-800/30">
-                  <td className="px-5 py-3.5 text-sm font-semibold text-slate-900 dark:text-white">{date}</td>
-                  <td className="px-5 py-3.5 text-right text-sm font-medium text-slate-600 dark:text-zinc-300">{data.orders}</td>
-                  <td className="px-5 py-3.5 text-right text-sm font-medium text-slate-600 dark:text-zinc-300">{data.items}</td>
-                  <td className="px-5 py-3.5 text-right text-sm font-extrabold text-slate-900 dark:text-white">{formatCurrency(data.revenue)}</td>
+                <tr key={date} className="border-b border-border/50 transition hover:bg-muted/30">
+                  <td className="px-5 py-3.5 text-sm font-semibold text-foreground">{date}</td>
+                  <td className="px-5 py-3.5 text-right text-sm font-medium text-muted-foreground">{data.orders}</td>
+                  <td className="px-5 py-3.5 text-right text-sm font-medium text-muted-foreground">{data.items}</td>
+                  <td className="px-5 py-3.5 text-right font-display text-sm font-extrabold text-foreground">{formatCurrency(data.revenue)}</td>
                   <td className="px-5 py-3.5">
                     <div className="flex items-center justify-end gap-2">
-                      <div className="h-1.5 w-24 overflow-hidden rounded-full bg-slate-100 dark:bg-zinc-800">
+                      <div className="h-1.5 w-24 overflow-hidden rounded-full bg-muted">
                         <div
                           className="h-full rounded-full bg-gradient-to-r from-brand-400 to-brand-600"
                           style={{ width: `${(data.revenue / maxDailyRevenue) * 100}%` }}
                         />
                       </div>
-                      <span className="w-10 text-right text-xs font-medium text-slate-400 dark:text-zinc-500">
+                      <span className="w-10 text-right text-xs font-medium text-muted-foreground">
                         {totalRevenue > 0 ? Math.round((data.revenue / totalRevenue) * 100) : 0}%
                       </span>
                     </div>

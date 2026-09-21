@@ -8,7 +8,7 @@ export function Card({ className, children, ...props }: CardProps) {
   return (
     <div
       className={cn(
-        'rounded-2xl border border-slate-200/70 bg-white shadow-soft transition-shadow duration-200 dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-none',
+        'rounded-xl border border-border bg-card text-card-foreground transition-shadow duration-200 dark:shadow-none',
         className,
       )}
       {...props}
@@ -31,12 +31,18 @@ export function Button({
   ...props
 }: ButtonProps) {
   const variants = {
-    primary: 'bg-slate-900 text-white hover:bg-slate-800 shadow-soft hover:shadow-soft-md active:scale-[.98] dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white',
-    secondary: 'bg-slate-100 text-slate-900 hover:bg-slate-200 active:scale-[.98] dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700',
-    ghost: 'text-slate-600 hover:bg-slate-100 active:scale-[.98] dark:text-zinc-300 dark:hover:bg-zinc-800',
-    danger: 'bg-red-50 text-red-600 hover:bg-red-100 active:scale-[.98] dark:bg-red-950 dark:text-red-400 dark:hover:bg-red-900',
-    outline: 'border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 active:scale-[.98] dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:border-zinc-600',
-    success: 'bg-brand-600 text-white hover:bg-brand-700 shadow-soft hover:shadow-soft-md active:scale-[.98] dark:bg-brand-600 dark:hover:bg-brand-500',
+    primary:
+      'bg-foreground text-background hover:bg-foreground/90 active:scale-[.98] focus-visible:ring-2 focus-visible:ring-ring/30',
+    secondary:
+      'bg-muted text-foreground hover:bg-muted/80 active:scale-[.98] focus-visible:ring-2 focus-visible:ring-ring/30',
+    ghost:
+      'text-muted-foreground hover:bg-muted hover:text-foreground active:scale-[.98] focus-visible:ring-2 focus-visible:ring-ring/20',
+    danger:
+      'bg-destructive/10 text-destructive hover:bg-destructive/15 active:scale-[.98] focus-visible:ring-2 focus-visible:ring-destructive/20',
+    outline:
+      'border border-border text-foreground hover:bg-muted active:scale-[.98] focus-visible:ring-2 focus-visible:ring-ring/20',
+    success:
+      'bg-primary text-primary-foreground hover:bg-primary-hover active:scale-[.98] focus-visible:ring-2 focus-visible:ring-ring/30',
   };
   const sizes = {
     sm: 'px-3 py-1.5 text-sm rounded-lg gap-1.5 font-semibold',
@@ -46,7 +52,7 @@ export function Button({
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none',
+        'inline-flex items-center justify-center transition-all duration-200 outline-none disabled:opacity-40 disabled:pointer-events-none',
         variants[variant],
         sizes[size],
         className,
@@ -66,16 +72,14 @@ interface BadgeProps {
 
 export function Badge({ children, variant = 'neutral', className }: BadgeProps) {
   const variants = {
-    success: 'bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-400',
-    warning: 'bg-accent-50 text-accent-700 dark:bg-accent-950 dark:text-accent-400',
-    danger: 'bg-red-50 text-red-600 dark:bg-red-950 dark:text-red-400',
-    neutral: 'bg-slate-100 text-slate-600 dark:bg-zinc-800 dark:text-zinc-400',
-    info: 'bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400',
+    success: 'bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300',
+    warning: 'bg-accent-50 text-accent-700 dark:bg-accent-950 dark:text-accent-300',
+    danger: 'bg-destructive/10 text-destructive',
+    neutral: 'bg-muted text-muted-foreground',
+    info: 'bg-info/10 text-info',
     accent: 'bg-accent-50 text-accent-600 dark:bg-accent-950 dark:text-accent-400',
   };
   return (
-    <span className={cn('badge', variants[variant], className)}>
-      {children}
-    </span>
+    <span className={cn('badge', variants[variant], className)}>{children}</span>
   );
 }

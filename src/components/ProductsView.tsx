@@ -35,11 +35,11 @@ export function ProductsView() {
   const lowStockCount = products.filter((p) => p.stock < 15).length;
 
   return (
-    <div className="h-full overflow-y-auto bg-slate-50 p-6 dark:bg-zinc-950">
+    <div className="h-full overflow-y-auto bg-background p-6">
       <div className="mb-7 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Products</h1>
-          <p className="mt-0.5 text-sm font-medium text-slate-400 dark:text-zinc-500">
+          <h1 className="font-display text-2xl font-extrabold tracking-tight text-foreground">Products</h1>
+          <p className="mt-0.5 text-sm font-medium text-muted-foreground">
             {products.length} items in catalog · {totalStock} total stock
           </p>
         </div>
@@ -51,21 +51,21 @@ export function ProductsView() {
       {/* Mini stats */}
       <div className="mb-5 grid grid-cols-3 gap-3">
         <Card className="flex items-center gap-3 p-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-600 dark:bg-zinc-800 dark:text-zinc-400">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
             <Package size={18} />
           </div>
           <div>
-            <p className="text-xl font-extrabold text-slate-900 dark:text-white">{products.length}</p>
-            <p className="text-xs font-medium text-slate-400 dark:text-zinc-500">Products</p>
+            <p className="font-display text-xl font-extrabold text-foreground">{products.length}</p>
+            <p className="text-xs font-medium text-muted-foreground">Products</p>
           </div>
         </Card>
         <Card className="flex items-center gap-3 p-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-400">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-primary dark:bg-brand-950">
             <Package size={18} />
           </div>
           <div>
-            <p className="text-xl font-extrabold text-slate-900 dark:text-white">{totalStock}</p>
-            <p className="text-xs font-medium text-slate-400 dark:text-zinc-500">Total Stock</p>
+            <p className="font-display text-xl font-extrabold text-foreground">{totalStock}</p>
+            <p className="text-xs font-medium text-muted-foreground">Total Stock</p>
           </div>
         </Card>
         <Card className="flex items-center gap-3 p-4">
@@ -73,14 +73,14 @@ export function ProductsView() {
             <AlertTriangle size={18} />
           </div>
           <div>
-            <p className="text-xl font-extrabold text-slate-900 dark:text-white">{lowStockCount}</p>
-            <p className="text-xs font-medium text-slate-400 dark:text-zinc-500">Low Stock</p>
+            <p className="font-display text-xl font-extrabold text-foreground">{lowStockCount}</p>
+            <p className="text-xs font-medium text-muted-foreground">Low Stock</p>
           </div>
         </Card>
       </div>
 
       <div className="mb-5 relative max-w-sm">
-        <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-zinc-500" />
+        <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -92,7 +92,7 @@ export function ProductsView() {
       <Card className="overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-slate-100 bg-slate-50/50 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-zinc-500">
+            <tr className="border-b border-border bg-muted/50 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               <th className="px-5 py-3.5">Product</th>
               <th className="px-5 py-3.5">Category</th>
               <th className="px-5 py-3.5">SKU</th>
@@ -103,38 +103,38 @@ export function ProductsView() {
           </thead>
           <tbody>
             {filtered.map((p) => (
-              <tr key={p.id} className="border-b border-slate-50 transition hover:bg-slate-50/50 dark:border-zinc-800/50 dark:hover:bg-zinc-800/30">
+              <tr key={p.id} className="border-b border-border/50 transition hover:bg-muted/30">
                 <td className="px-5 py-3.5">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">{p.emoji}</span>
-                    <span className="font-bold text-slate-900 dark:text-white">{p.name}</span>
+                    <span className="font-bold text-foreground">{p.name}</span>
                   </div>
                 </td>
                 <td className="px-5 py-3.5">
                   <Badge variant="neutral">{p.category}</Badge>
                 </td>
-                <td className="px-5 py-3.5 font-mono text-sm text-slate-500 dark:text-zinc-400">{p.sku}</td>
-                <td className="px-5 py-3.5 text-right font-bold text-slate-900 dark:text-white">{formatCurrency(p.price)}</td>
+                <td className="px-5 py-3.5 font-mono text-sm text-muted-foreground">{p.sku}</td>
+                <td className="px-5 py-3.5 text-right font-bold text-foreground">{formatCurrency(p.price)}</td>
                 <td className="px-5 py-3.5 text-right">
                   {p.stock === 0 ? (
                     <Badge variant="danger">Out of stock</Badge>
                   ) : p.stock < 15 ? (
                     <Badge variant="warning">{p.stock} left</Badge>
                   ) : (
-                    <span className="text-sm font-semibold text-slate-600 dark:text-zinc-300">{p.stock}</span>
+                    <span className="text-sm font-semibold text-muted-foreground">{p.stock}</span>
                   )}
                 </td>
                 <td className="px-5 py-3.5">
                   <div className="flex justify-end gap-1.5">
                     <button
                       onClick={() => openEdit(p)}
-                      className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-white"
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-muted hover:text-foreground"
                     >
                       <Pencil size={15} />
                     </button>
                     <button
                       onClick={() => setDeleteTarget(p)}
-                      className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-red-50 hover:text-red-500 dark:text-zinc-500 dark:hover:bg-red-950 dark:hover:text-red-400"
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-destructive/10 hover:text-destructive"
                     >
                       <Trash2 size={15} />
                     </button>
@@ -146,8 +146,8 @@ export function ProductsView() {
         </table>
         {filtered.length === 0 && (
           <div className="flex h-32 flex-col items-center justify-center text-center">
-            <Package size={28} className="mb-2 text-slate-200 dark:text-zinc-700" />
-            <p className="text-sm font-medium text-slate-400 dark:text-zinc-500">No products found</p>
+            <Package size={28} className="mb-2 text-neutral-300 dark:text-neutral-700" />
+            <p className="text-sm font-medium text-muted-foreground">No products found</p>
           </div>
         )}
       </Card>
@@ -188,19 +188,19 @@ function DeleteConfirm({
   onCancel: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-sm animate-fade-in dark:bg-black/60" onClick={onCancel}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 p-4 backdrop-blur-sm animate-fade-in" onClick={onCancel}>
       <Card className="w-[380px] animate-scale-in p-6" onClick={(e) => e.stopPropagation()}>
         <div className="mb-4 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-red-500 dark:bg-red-950 dark:text-red-400">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-destructive/10 text-destructive">
             <Trash2 size={22} />
           </div>
           <div>
-            <h3 className="text-base font-bold text-slate-900 dark:text-white">Delete Product</h3>
-            <p className="text-xs font-medium text-slate-400 dark:text-zinc-500">This action cannot be undone</p>
+            <h3 className="font-display text-base font-bold text-foreground">Delete Product</h3>
+            <p className="text-xs font-medium text-muted-foreground">This action cannot be undone</p>
           </div>
         </div>
-        <p className="mb-5 text-sm text-slate-600 dark:text-zinc-300">
-          Are you sure you want to delete <span className="font-bold text-slate-900 dark:text-white">{product.emoji} {product.name}</span>? It will be removed from your catalog permanently.
+        <p className="mb-5 text-sm text-muted-foreground">
+          Are you sure you want to delete <span className="font-bold text-foreground">{product.emoji} {product.name}</span>? It will be removed from your catalog permanently.
         </p>
         <div className="flex gap-2">
           <Button variant="outline" onClick={onCancel} className="flex-1">Cancel</Button>
@@ -247,25 +247,25 @@ function ProductForm({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-sm animate-fade-in dark:bg-black/60" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 p-4 backdrop-blur-sm animate-fade-in" onClick={onClose}>
       <Card className="w-[460px] max-h-[90vh] animate-scale-in overflow-y-auto p-6" onClick={(e) => e.stopPropagation()}>
         <div className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-600 dark:bg-zinc-800 dark:text-zinc-400">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-muted text-muted-foreground">
               <Package size={18} />
             </div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+            <h3 className="font-display text-lg font-bold text-foreground">
               {product ? 'Edit Product' : 'New Product'}
             </h3>
           </div>
-          <button onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-white">
+          <button onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-muted hover:text-foreground">
             <X size={18} />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-zinc-300">Icon</label>
+            <label className="mb-2 block text-sm font-semibold text-foreground">Icon</label>
             <div className="flex flex-wrap gap-1.5">
               {EMOJIS.map((e) => (
                 <button
@@ -275,8 +275,8 @@ function ProductForm({
                   className={cn(
                     'flex h-9 w-9 items-center justify-center rounded-lg text-xl transition-all duration-150',
                     emoji === e
-                      ? 'bg-slate-900 ring-2 ring-slate-900 ring-offset-1 scale-110 dark:bg-zinc-100 dark:ring-zinc-100 dark:ring-offset-zinc-900'
-                      : 'bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700',
+                      ? 'bg-foreground ring-2 ring-foreground ring-offset-1 ring-offset-card scale-110 text-background'
+                      : 'bg-muted hover:bg-muted/80',
                   )}
                 >
                   {e}
@@ -286,7 +286,7 @@ function ProductForm({
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-zinc-300">Name</label>
+            <label className="mb-2 block text-sm font-semibold text-foreground">Name</label>
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -297,7 +297,7 @@ function ProductForm({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-zinc-300">Price (Ks)</label>
+              <label className="mb-2 block text-sm font-semibold text-foreground">Price (Ks)</label>
               <input
                 type="number"
                 step="100"
@@ -308,7 +308,7 @@ function ProductForm({
               />
             </div>
             <div>
-              <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-zinc-300">Stock</label>
+              <label className="mb-2 block text-sm font-semibold text-foreground">Stock</label>
               <input
                 type="number"
                 value={stock}
@@ -320,7 +320,7 @@ function ProductForm({
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-zinc-300">Category</label>
+            <label className="mb-2 block text-sm font-semibold text-foreground">Category</label>
             <div className="flex flex-wrap gap-2">
               {CATEGORIES.map((c) => (
                 <button
@@ -330,8 +330,8 @@ function ProductForm({
                   className={cn(
                     'rounded-lg px-3.5 py-2 text-sm font-semibold transition-all duration-200',
                     category === c
-                      ? 'bg-slate-900 text-white shadow-soft dark:bg-zinc-100 dark:text-zinc-900'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700',
+                      ? 'bg-foreground text-background'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80',
                   )}
                 >
                   {c}
@@ -341,7 +341,7 @@ function ProductForm({
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-zinc-300">SKU (optional)</label>
+            <label className="mb-2 block text-sm font-semibold text-foreground">SKU (optional)</label>
             <input
               value={sku}
               onChange={(e) => setSku(e.target.value)}

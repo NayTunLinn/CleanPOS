@@ -25,9 +25,9 @@ export function Sidebar({ view, onNavigate }: SidebarProps) {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <aside className="flex h-full w-20 flex-col items-center border-r border-slate-200/70 bg-white py-5 dark:border-zinc-800 dark:bg-zinc-900 lg:w-64">
-      <div className="mb-9 flex h-16 w-full items-center justify-center px-2">
-        <picture className="block h-12 w-14 lg:h-16 lg:w-48">
+    <aside className="flex h-full w-20 flex-col items-center border-r border-border bg-card py-5 lg:w-64">
+      <div className="mb-8 flex h-14 w-full items-center justify-center px-2 lg:h-16">
+        <picture className="block h-12 w-14 lg:h-14 lg:w-48">
           <img src="/assets/logos/minimartLight.png" alt="MiniMart" className="h-full w-full object-contain dark:hidden" />
           <img src="/assets/logos/minimartDark.png" alt="MiniMart" className="hidden h-full w-full object-contain dark:block" />
         </picture>
@@ -42,21 +42,21 @@ export function Sidebar({ view, onNavigate }: SidebarProps) {
               key={item.id}
               onClick={() => onNavigate(item.id)}
               className={cn(
-                'group relative flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold transition-all duration-200',
+                'group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring/30',
                 active
-                  ? 'bg-slate-900 text-white shadow-soft dark:bg-zinc-100 dark:text-zinc-900'
-                  : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-white',
+                  ? 'bg-foreground text-background'
+                  : 'text-muted-foreground hover:bg-muted hover:text-foreground',
               )}
             >
               <Icon size={20} className={cn('shrink-0 transition-transform duration-200', active ? 'scale-105' : 'group-hover:scale-105')} />
               <span className="hidden lg:block">{item.label}</span>
               {item.id === 'pos' && cartCount > 0 && (
-                <span className="absolute right-2 top-1.5 flex h-5 min-w-[20px] animate-scale-in items-center justify-center rounded-full bg-brand-500 px-1 text-[10px] font-bold text-white lg:right-3 lg:top-3">
+                <span className="absolute right-2 top-1.5 flex h-5 min-w-[20px] animate-scale-in items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground lg:right-3 lg:top-3">
                   {cartCount}
                 </span>
               )}
               {active && (
-                <span className="absolute -left-3 top-1/2 hidden h-6 w-1 -translate-y-1/2 rounded-full bg-brand-500 lg:block" />
+                <span className="absolute -left-3 top-1/2 hidden h-6 w-1 -translate-y-1/2 rounded-full bg-primary lg:block" />
               )}
             </button>
           );
@@ -67,25 +67,25 @@ export function Sidebar({ view, onNavigate }: SidebarProps) {
         <button
           onClick={toggleTheme}
           className={cn(
-            'mb-2 flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200',
-            'text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-white',
+            'mb-2 flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring/20',
+            'text-muted-foreground hover:bg-muted hover:text-foreground',
           )}
         >
           {theme === 'dark' ? <Sun size={18} className="shrink-0" /> : <Moon size={18} className="shrink-0" />}
           <span className="hidden lg:block">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
         </button>
 
-        <div className="flex items-center gap-2.5 rounded-xl bg-slate-50 px-3 py-2.5 transition hover:bg-slate-100/70 dark:bg-zinc-800 dark:hover:bg-zinc-700/70">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent-400 to-accent-600 text-sm font-bold text-white shadow-soft">
+        <div className="flex items-center gap-2.5 rounded-xl bg-muted px-3 py-2.5 transition hover:bg-muted/80">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-accent-foreground">
             {user?.initials ?? 'A'}
           </div>
           <div className="hidden flex-1 lg:block">
-            <p className="text-xs font-bold text-slate-900 dark:text-white">{user?.name ?? 'Alex Morgan'}</p>
-            <p className="text-[11px] font-medium text-slate-400 dark:text-zinc-500">{user?.role ?? 'Cashier'}</p>
+            <p className="text-xs font-bold text-foreground">{user?.name ?? 'Alex Morgan'}</p>
+            <p className="text-[11px] font-medium text-muted-foreground">{user?.role ?? 'Cashier'}</p>
           </div>
           <button
             onClick={logout}
-            className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-950 lg:ml-auto"
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-destructive/10 hover:text-destructive lg:ml-auto"
             title="Sign out"
           >
             <LogOut size={16} />
