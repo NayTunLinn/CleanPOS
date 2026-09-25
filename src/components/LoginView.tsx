@@ -46,8 +46,8 @@ export function LoginView() {
   return (
     <div className="flex min-h-screen">
       {/* Left brand panel */}
-      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-neutral-950 p-12 lg:flex">
-        <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-neutral-950 to-brand-950/40" />
+      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-neutral-900 p-12 lg:flex">
+        <div className="absolute inset-0 bg-gradient-to-br from-neutral-900 via-neutral-900 to-brand-950/30" />
         <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-brand-600/10 blur-3xl" />
         <div className="absolute -bottom-32 -left-16 h-96 w-96 rounded-full bg-accent-500/5 blur-3xl" />
 
