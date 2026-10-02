@@ -1,11 +1,11 @@
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, ShoppingCart, Package, Receipt, BarChart3, LogOut, Sun, Moon, X } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, Package, Receipt, BarChart3, FileBarChart, LogOut, Sun, Moon, X } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { useAuth } from '@/lib/auth';
 import { useTheme } from '@/lib/theme';
 import { useState } from 'react';
 
-export type View = 'pos' | 'dashboard' | 'products' | 'orders' | 'sales';
+export type View = 'pos' | 'dashboard' | 'products' | 'orders' | 'sales' | 'reports';
 
 interface SidebarProps {
   view: View;
@@ -16,6 +16,7 @@ const NAV: { id: View; label: string; icon: typeof LayoutDashboard }[] = [
   { id: 'pos', label: 'Checkout', icon: ShoppingCart },
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'sales', label: 'Sales', icon: BarChart3 },
+  { id: 'reports', label: 'Reports', icon: FileBarChart },
   { id: 'products', label: 'Products', icon: Package },
   { id: 'orders', label: 'Orders', icon: Receipt },
 ];
@@ -148,31 +149,30 @@ export function Sidebar({ view, onNavigate }: SidebarProps) {
       )}
 
       {/* Mobile bottom navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-around border-t border-border bg-card px-1 py-1.5 lg:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between border-t border-border bg-card px-0.5 py-1.5 lg:hidden">
         {NAV.map((item) => {
           const active = view === item.id;
           const Icon = item.icon;
-          const isMore = item.id === 'orders';
           return (
             <button
               key={item.id}
-              onClick={() => (isMore ? setDrawerOpen(true) : handleNavigate(item.id))}
+              onClick={() => handleNavigate(item.id)}
               className={cn(
-                'relative flex flex-col items-center gap-0.5 rounded-lg px-3 py-1.5 text-[10px] font-semibold transition-all duration-200',
-                active && !isMore
+                'relative flex flex-1 flex-col items-center gap-0.5 rounded-lg py-1.5 text-[9px] font-semibold transition-all duration-200',
+                active
                   ? 'text-primary'
                   : 'text-muted-foreground',
               )}
             >
-              <Icon size={20} className={cn('shrink-0', active && !isMore && 'scale-110')} />
-              <span>{item.label}</span>
+              <Icon size={18} className={cn('shrink-0', active && 'scale-110')} />
+              <span className="truncate">{item.label}</span>
               {item.id === 'pos' && cartCount > 0 && (
                 <span className="absolute right-1 top-0 flex h-4 min-w-[16px] animate-scale-in items-center justify-center rounded-full bg-primary px-1 text-[9px] font-bold text-primary-foreground">
                   {cartCount}
                 </span>
               )}
-              {active && !isMore && (
-                <span className="absolute -top-0.5 h-0.5 w-8 rounded-full bg-primary" />
+              {active && (
+                <span className="absolute -top-0.5 h-0.5 w-7 rounded-full bg-primary" />
               )}
             </button>
           );
