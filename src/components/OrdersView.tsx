@@ -1,40 +1,142 @@
-import { useState } from 'react';
-import { ChevronDown, ChevronUp, Receipt, Search, FileText, X, Store, Printer } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { ChevronDown, ChevronUp, Receipt, Search, FileText, X, Store, Printer, CreditCard, Banknote, Layers } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { formatCurrency, formatDate, formatTime } from '@/lib/format';
 import { Button, Card, Badge } from '@/components/ui';
 import { cn } from '@/lib/utils';
-import type { Order } from '@/lib/types';
+import type { Order, PaymentMethod } from '@/lib/types';
+
+type Period = 'today' | '7d' | '30d' | 'all';
+type PaymentFilter = 'all' | PaymentMethod;
+
+const PERIODS: { id: Period; label: string }[] = [
+  { id: 'today', label: 'Today' },
+  { id: '7d', label: '7 Days' },
+  { id: '30d', label: '30 Days' },
+  { id: 'all', label: 'All Time' },
+];
+
+const PAYMENT_FILTERS: { id: PaymentFilter; label: string; icon: typeof Layers }[] = [
+  { id: 'all', label: 'All', icon: Layers },
+  { id: 'card', label: 'Card', icon: CreditCard },
+  { id: 'cash', label: 'Cash', icon: Banknote },
+];
 
 export function OrdersView() {
   const { orders } = useStore();
   const [search, setSearch] = useState('');
+  const [period, setPeriod] = useState<Period>('all');
+  const [paymentFilter, setPaymentFilter] = useState<PaymentFilter>('all');
   const [expanded, setExpanded] = useState<string | null>(null);
   const [invoiceOrder, setInvoiceOrder] = useState<Order | null>(null);
 
-  const filtered = orders.filter((o) =>
-    o.id.toLowerCase().includes(search.toLowerCase()),
-  );
+  const filtered = useMemo(() => {
+    let result = orders;
+
+    if (search.trim()) {
+      result = result.filter((o) => o.id.toLowerCase().includes(search.toLowerCase()));
+    }
+
+    if (paymentFilter !== 'all') {
+      result = result.filter((o) => o.paymentMethod === paymentFilter);
+    }
+
+    if (period !== 'all') {
+      const now = Date.now();
+      const ranges: Record<Period, number> = {
+        today: 24 * 60 * 60 * 1000,
+        '7d': 7 * 24 * 60 * 60 * 1000,
+        '30d': 30 * 24 * 60 * 60 * 1000,
+        all: 0,
+      };
+      const cutoff = now - ranges[period];
+      result = result.filter((o) => o.createdAt >= cutoff);
+    }
+
+    return result;
+  }, [orders, search, period, paymentFilter]);
 
   const totalRevenue = filtered.reduce((s, o) => s + o.total, 0);
+  const activeFilters = (period !== 'all' ? 1 : 0) + (paymentFilter !== 'all' ? 1 : 0);
+
+  const clearFilters = () => {
+    setPeriod('all');
+    setPaymentFilter('all');
+    setSearch('');
+  };
 
   return (
     <div className="h-full overflow-y-auto bg-background p-4 sm:p-6">
       <div className="mb-5 sm:mb-7">
         <h1 className="font-display text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">Orders</h1>
         <p className="mt-0.5 text-sm font-medium text-muted-foreground">
-          {orders.length} completed orders · {formatCurrency(totalRevenue)} total
+          {filtered.length} {filtered.length === 1 ? 'order' : 'orders'} · {formatCurrency(totalRevenue)} total
         </p>
       </div>
 
-      <div className="mb-4 relative max-w-full sm:mb-5 sm:max-w-sm">
-        <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
-        <input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search by order ID..."
-          className="input-search"
-        />
+      {/* Filters */}
+      <div className="mb-4 flex flex-col gap-3 sm:mb-5">
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Period filter */}
+          <div className="flex overflow-x-auto rounded-xl border border-border bg-card p-1 shadow-soft">
+            {PERIODS.map((p) => (
+              <button
+                key={p.id}
+                onClick={() => setPeriod(p.id)}
+                className={cn(
+                  'whitespace-nowrap rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring/20 sm:px-3.5 sm:text-sm',
+                  period === p.id
+                    ? 'bg-foreground text-background'
+                    : 'text-muted-foreground hover:text-foreground',
+                )}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Payment filter */}
+          <div className="flex overflow-x-auto rounded-xl border border-border bg-card p-1 shadow-soft">
+            {PAYMENT_FILTERS.map((f) => {
+              const Icon = f.icon;
+              const active = paymentFilter === f.id;
+              return (
+                <button
+                  key={f.id}
+                  onClick={() => setPaymentFilter(f.id)}
+                  className={cn(
+                    'flex items-center gap-1.5 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring/20 sm:px-3.5 sm:text-sm',
+                    active
+                      ? 'bg-foreground text-background'
+                      : 'text-muted-foreground hover:text-foreground',
+                  )}
+                >
+                  <Icon size={14} /> {f.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {activeFilters > 0 && (
+            <button
+              onClick={clearFilters}
+              className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-muted-foreground transition hover:text-destructive"
+            >
+              <X size={14} /> Clear
+            </button>
+          )}
+        </div>
+
+        {/* Search */}
+        <div className="relative max-w-full sm:max-w-sm">
+          <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by order ID..."
+            className="input-search"
+          />
+        </div>
       </div>
 
       {filtered.length === 0 ? (
