@@ -19,15 +19,15 @@ export function OrdersView() {
   const totalRevenue = filtered.reduce((s, o) => s + o.total, 0);
 
   return (
-    <div className="h-full overflow-y-auto bg-background p-6">
-      <div className="mb-7">
-        <h1 className="font-display text-2xl font-extrabold tracking-tight text-foreground">Orders</h1>
+    <div className="h-full overflow-y-auto bg-background p-4 sm:p-6">
+      <div className="mb-5 sm:mb-7">
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">Orders</h1>
         <p className="mt-0.5 text-sm font-medium text-muted-foreground">
           {orders.length} completed orders · {formatCurrency(totalRevenue)} total
         </p>
       </div>
 
-      <div className="mb-5 relative max-w-sm">
+      <div className="mb-4 relative max-w-full sm:mb-5 sm:max-w-sm">
         <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <input
           value={search}
@@ -86,28 +86,28 @@ function OrderRow({
     >
       <button
         onClick={onToggle}
-        className="flex w-full items-center justify-between p-4 text-left transition hover:bg-muted/40"
+        className="flex w-full items-center justify-between gap-2 p-3 text-left transition hover:bg-muted/40 sm:p-4"
       >
-        <div className="flex items-center gap-4">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-muted text-muted-foreground">
-            <Receipt size={20} />
+        <div className="flex items-center gap-2.5 sm:gap-4">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-muted text-muted-foreground sm:h-11 sm:w-11">
+            <Receipt size={18} className="sm:hidden" /><Receipt size={20} className="hidden sm:block" />
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <span className="font-extrabold text-foreground">{order.id}</span>
-              <Badge variant="success">{order.status}</Badge>
+              <span className="truncate font-extrabold text-foreground">{order.id}</span>
+              <Badge variant="success" className="shrink-0">{order.status}</Badge>
             </div>
             <p className="mt-0.5 text-xs font-medium text-muted-foreground">
               {formatDate(order.createdAt)} · {formatTime(order.createdAt)}
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <div className="text-right">
             <p className="text-sm font-extrabold text-foreground">{formatCurrency(order.total)}</p>
             <p className="text-xs font-medium capitalize text-muted-foreground">{itemCount} items · {order.paymentMethod}</p>
           </div>
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
             {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
           </div>
         </div>
@@ -158,7 +158,7 @@ function InvoiceModal({ order, onClose }: { order: Order; onClose: () => void })
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 p-4 backdrop-blur-sm animate-fade-in" onClick={onClose}>
-      <Card className="w-[480px] max-h-[90vh] animate-scale-in overflow-y-auto p-0" onClick={(e) => e.stopPropagation()}>
+      <Card className="w-[calc(100vw-2rem)] max-w-[480px] max-h-[90vh] animate-scale-in overflow-y-auto p-0" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between border-b border-border px-6 py-4">
           <div className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground text-background">
@@ -181,7 +181,7 @@ function InvoiceModal({ order, onClose }: { order: Order; onClose: () => void })
         </div>
 
         {/* Invoice header */}
-        <div className="border-b border-border px-6 py-5">
+        <div className="border-b border-border px-4 py-4 sm:px-6 sm:py-5">
           <div className="mb-4 flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-soft">
               <Store size={22} />
@@ -221,7 +221,8 @@ function InvoiceModal({ order, onClose }: { order: Order; onClose: () => void })
         </div>
 
         {/* Line items */}
-        <div className="px-6 py-5">
+        <div className="px-4 py-4 sm:px-6 sm:py-5">
+          <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-border text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -252,10 +253,11 @@ function InvoiceModal({ order, onClose }: { order: Order; onClose: () => void })
               ))}
             </tbody>
           </table>
+          </div>
         </div>
 
         {/* Totals */}
-        <div className="border-t border-border bg-muted/30 px-6 py-5">
+        <div className="border-t border-border bg-muted/30 px-4 py-4 sm:px-6 sm:py-5">
           <div className="ml-auto max-w-[240px] space-y-2">
             <div className="flex justify-between text-sm text-muted-foreground">
               <span>Items</span><span className="font-medium">{itemCount}</span>

@@ -100,20 +100,20 @@ export function SalesView() {
   };
 
   return (
-    <div className="h-full overflow-y-auto bg-background p-6">
-      <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="h-full overflow-y-auto bg-background p-4 sm:p-6">
+      <div className="mb-5 flex flex-col gap-3 sm:mb-7 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-display text-2xl font-extrabold tracking-tight text-foreground">Sales Report</h1>
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">Sales Report</h1>
           <p className="mt-0.5 text-sm font-medium text-muted-foreground">Track revenue and performance</p>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="flex rounded-xl border border-border bg-card p-1 shadow-soft">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex overflow-x-auto rounded-xl border border-border bg-card p-1 shadow-soft">
             {PERIODS.map((p) => (
               <button
                 key={p.id}
                 onClick={() => setPeriod(p.id)}
                 className={cn(
-                  'rounded-lg px-3.5 py-1.5 text-sm font-semibold transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring/20',
+                  'whitespace-nowrap rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring/20 sm:px-3.5 sm:text-sm',
                   period === p.id
                     ? 'bg-foreground text-background'
                     : 'text-muted-foreground hover:text-foreground',
@@ -123,20 +123,20 @@ export function SalesView() {
               </button>
             ))}
           </div>
-          <Button variant="outline" size="md" onClick={handleExport} disabled={filteredOrders.length === 0}>
-            <Download size={16} /> Export
+          <Button variant="outline" size="md" onClick={handleExport} disabled={filteredOrders.length === 0} className="shrink-0">
+            <Download size={16} /> <span className="hidden sm:inline">Export</span>
           </Button>
         </div>
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {stats.map((stat, idx) => {
           const Icon = stat.icon;
           return (
             <Card
               key={stat.label}
-              className="animate-fade-in-up p-5 hover:shadow-soft-md"
+              className="animate-fade-in-up p-4 hover:shadow-soft-md sm:p-5"
               style={{ animationDelay: `${idx * 60}ms` }}
             >
               <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl ring-1', stat.accent, stat.ring)}>
@@ -150,7 +150,7 @@ export function SalesView() {
       </div>
 
       {/* Charts row */}
-      <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="mt-4 grid grid-cols-1 gap-3 sm:gap-4 lg:mt-6 lg:grid-cols-2">
         <Card className="p-5">
           <div className="mb-5 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -235,8 +235,8 @@ export function SalesView() {
       </div>
 
       {/* Daily breakdown table */}
-      <Card className="mt-6 overflow-hidden">
-        <div className="flex items-center justify-between border-b border-border p-5">
+      <Card className="mt-4 overflow-hidden sm:mt-6">
+        <div className="flex items-center justify-between border-b border-border p-4 sm:p-5">
           <h2 className="font-display text-base font-bold text-foreground">Daily Sales Breakdown</h2>
           <span className="badge bg-muted text-muted-foreground">{dailyBreakdown.length} days</span>
         </div>
@@ -246,32 +246,33 @@ export function SalesView() {
             <p className="text-sm font-medium text-muted-foreground">No sales data for this period</p>
           </div>
         ) : (
+          <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-border bg-muted/50 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                <th className="px-5 py-3.5">Date</th>
-                <th className="px-5 py-3.5 text-right">Orders</th>
-                <th className="px-5 py-3.5 text-right">Items</th>
-                <th className="px-5 py-3.5 text-right">Revenue</th>
-                <th className="px-5 py-3.5 text-right">Share</th>
+                <th className="px-4 py-3 sm:px-5 sm:py-3.5">Date</th>
+                <th className="px-4 py-3 text-right sm:px-5 sm:py-3.5">Orders</th>
+                <th className="px-4 py-3 text-right sm:px-5 sm:py-3.5">Items</th>
+                <th className="px-4 py-3 text-right sm:px-5 sm:py-3.5">Revenue</th>
+                <th className="px-4 py-3 text-right sm:px-5 sm:py-3.5">Share</th>
               </tr>
             </thead>
             <tbody>
               {dailyBreakdown.map(([date, data]) => (
                 <tr key={date} className="border-b border-border/50 transition hover:bg-muted/30">
-                  <td className="px-5 py-3.5 text-sm font-semibold text-foreground">{date}</td>
-                  <td className="px-5 py-3.5 text-right text-sm font-medium text-muted-foreground">{data.orders}</td>
-                  <td className="px-5 py-3.5 text-right text-sm font-medium text-muted-foreground">{data.items}</td>
-                  <td className="px-5 py-3.5 text-right font-display text-sm font-extrabold text-foreground">{formatCurrency(data.revenue)}</td>
-                  <td className="px-5 py-3.5">
+                  <td className="px-4 py-3 text-sm font-semibold text-foreground sm:px-5 sm:py-3.5">{date}</td>
+                  <td className="px-4 py-3 text-right text-sm font-medium text-muted-foreground sm:px-5 sm:py-3.5">{data.orders}</td>
+                  <td className="px-4 py-3 text-right text-sm font-medium text-muted-foreground sm:px-5 sm:py-3.5">{data.items}</td>
+                  <td className="px-4 py-3 text-right font-display text-sm font-extrabold text-foreground sm:px-5 sm:py-3.5">{formatCurrency(data.revenue)}</td>
+                  <td className="px-4 py-3 sm:px-5 sm:py-3.5">
                     <div className="flex items-center justify-end gap-2">
-                      <div className="h-1.5 w-24 overflow-hidden rounded-full bg-muted">
+                      <div className="h-1.5 w-12 overflow-hidden rounded-full bg-muted sm:w-24">
                         <div
                           className="h-full rounded-full bg-gradient-to-r from-brand-400 to-brand-600"
                           style={{ width: `${(data.revenue / maxDailyRevenue) * 100}%` }}
                         />
                       </div>
-                      <span className="w-10 text-right text-xs font-medium text-muted-foreground">
+                      <span className="w-9 text-right text-xs font-medium text-muted-foreground sm:w-10">
                         {totalRevenue > 0 ? Math.round((data.revenue / totalRevenue) * 100) : 0}%
                       </span>
                     </div>
@@ -280,6 +281,7 @@ export function SalesView() {
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </Card>
     </div>

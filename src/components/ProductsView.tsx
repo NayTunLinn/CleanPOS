@@ -35,51 +35,51 @@ export function ProductsView() {
   const lowStockCount = products.filter((p) => p.stock < 15).length;
 
   return (
-    <div className="h-full overflow-y-auto bg-background p-6">
-      <div className="mb-7 flex items-center justify-between">
+    <div className="h-full overflow-y-auto bg-background p-4 sm:p-6">
+      <div className="mb-5 flex flex-col gap-3 sm:mb-7 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-display text-2xl font-extrabold tracking-tight text-foreground">Products</h1>
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">Products</h1>
           <p className="mt-0.5 text-sm font-medium text-muted-foreground">
             {products.length} items in catalog · {totalStock} total stock
           </p>
         </div>
-        <Button onClick={openNew} variant="primary">
+        <Button onClick={openNew} variant="primary" className="shrink-0">
           <Plus size={18} /> Add Product
         </Button>
       </div>
 
       {/* Mini stats */}
-      <div className="mb-5 grid grid-cols-3 gap-3">
-        <Card className="flex items-center gap-3 p-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
-            <Package size={18} />
+      <div className="mb-5 grid grid-cols-3 gap-2 sm:gap-3">
+        <Card className="flex items-center gap-2 p-3 sm:gap-3 sm:p-4">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-muted text-muted-foreground sm:h-10 sm:w-10">
+            <Package size={16} className="sm:hidden" /><Package size={18} className="hidden sm:block" />
           </div>
           <div>
-            <p className="font-display text-xl font-extrabold text-foreground">{products.length}</p>
-            <p className="text-xs font-medium text-muted-foreground">Products</p>
+            <p className="font-display text-lg font-extrabold text-foreground sm:text-xl">{products.length}</p>
+            <p className="text-[11px] font-medium text-muted-foreground sm:text-xs">Products</p>
           </div>
         </Card>
-        <Card className="flex items-center gap-3 p-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-primary dark:bg-brand-950">
-            <Package size={18} />
+        <Card className="flex items-center gap-2 p-3 sm:gap-3 sm:p-4">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-primary dark:bg-brand-950 sm:h-10 sm:w-10">
+            <Package size={16} className="sm:hidden" /><Package size={18} className="hidden sm:block" />
           </div>
           <div>
-            <p className="font-display text-xl font-extrabold text-foreground">{totalStock}</p>
-            <p className="text-xs font-medium text-muted-foreground">Total Stock</p>
+            <p className="font-display text-lg font-extrabold text-foreground sm:text-xl">{totalStock}</p>
+            <p className="text-[11px] font-medium text-muted-foreground sm:text-xs">Total Stock</p>
           </div>
         </Card>
-        <Card className="flex items-center gap-3 p-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent-50 text-accent-600 dark:bg-accent-950 dark:text-accent-400">
-            <AlertTriangle size={18} />
+        <Card className="flex items-center gap-2 p-3 sm:gap-3 sm:p-4">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent-50 text-accent-600 dark:bg-accent-950 dark:text-accent-400 sm:h-10 sm:w-10">
+            <AlertTriangle size={16} className="sm:hidden" /><AlertTriangle size={18} className="hidden sm:block" />
           </div>
           <div>
-            <p className="font-display text-xl font-extrabold text-foreground">{lowStockCount}</p>
-            <p className="text-xs font-medium text-muted-foreground">Low Stock</p>
+            <p className="font-display text-lg font-extrabold text-foreground sm:text-xl">{lowStockCount}</p>
+            <p className="text-[11px] font-medium text-muted-foreground sm:text-xs">Low Stock</p>
           </div>
         </Card>
       </div>
 
-      <div className="mb-5 relative max-w-sm">
+      <div className="mb-4 relative max-w-full sm:mb-5 sm:max-w-sm">
         <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <input
           value={search}
@@ -89,7 +89,8 @@ export function ProductsView() {
         />
       </div>
 
-      <Card className="overflow-hidden">
+      {/* Desktop: table view */}
+      <Card className="hidden overflow-hidden sm:block">
         <table className="w-full">
           <thead>
             <tr className="border-b border-border bg-muted/50 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -152,6 +153,52 @@ export function ProductsView() {
         )}
       </Card>
 
+      {/* Mobile: card view */}
+      <div className="space-y-2.5 sm:hidden">
+        {filtered.map((p) => (
+          <Card key={p.id} className="flex items-center gap-3 p-3">
+            <span className="text-2xl">{p.emoji}</span>
+            <div className="flex-1 min-w-0">
+              <p className="truncate font-bold text-foreground">{p.name}</p>
+              <div className="mt-0.5 flex items-center gap-2">
+                <Badge variant="neutral">{p.category}</Badge>
+                <span className="font-mono text-[11px] text-muted-foreground">{p.sku}</span>
+              </div>
+              <div className="mt-1 flex items-center gap-3">
+                <span className="text-sm font-bold text-foreground">{formatCurrency(p.price)}</span>
+                {p.stock === 0 ? (
+                  <Badge variant="danger">Out of stock</Badge>
+                ) : p.stock < 15 ? (
+                  <Badge variant="warning">{p.stock} left</Badge>
+                ) : (
+                  <span className="text-xs font-medium text-muted-foreground">{p.stock} in stock</span>
+                )}
+              </div>
+            </div>
+            <div className="flex shrink-0 flex-col gap-1.5">
+              <button
+                onClick={() => openEdit(p)}
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-muted-foreground transition hover:text-foreground"
+              >
+                <Pencil size={15} />
+              </button>
+              <button
+                onClick={() => setDeleteTarget(p)}
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-muted-foreground transition hover:bg-destructive/10 hover:text-destructive"
+              >
+                <Trash2 size={15} />
+              </button>
+            </div>
+          </Card>
+        ))}
+        {filtered.length === 0 && (
+          <Card className="flex h-32 flex-col items-center justify-center">
+            <Package size={28} className="mb-2 text-neutral-300 dark:text-neutral-700" />
+            <p className="text-sm font-medium text-muted-foreground">No products found</p>
+          </Card>
+        )}
+      </div>
+
       {showForm && (
         <ProductForm
           product={editing}
@@ -189,7 +236,7 @@ function DeleteConfirm({
 }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 p-4 backdrop-blur-sm animate-fade-in" onClick={onCancel}>
-      <Card className="w-[380px] animate-scale-in p-6" onClick={(e) => e.stopPropagation()}>
+      <Card className="w-[calc(100vw-2rem)] max-w-[380px] animate-scale-in p-5 sm:p-6" onClick={(e) => e.stopPropagation()}>
         <div className="mb-4 flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-destructive/10 text-destructive">
             <Trash2 size={22} />
@@ -248,7 +295,7 @@ function ProductForm({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 p-4 backdrop-blur-sm animate-fade-in" onClick={onClose}>
-      <Card className="w-[460px] max-h-[90vh] animate-scale-in overflow-y-auto p-6" onClick={(e) => e.stopPropagation()}>
+      <Card className="w-[calc(100vw-2rem)] max-w-[460px] max-h-[90vh] animate-scale-in overflow-y-auto p-5 sm:p-6" onClick={(e) => e.stopPropagation()}>
         <div className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-muted text-muted-foreground">

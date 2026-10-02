@@ -35,10 +35,10 @@ export function DashboardView() {
   const maxRevenue = topProducts[0]?.revenue ?? 1;
 
   return (
-    <div className="h-full overflow-y-auto bg-background p-6">
-      <div className="mb-7 flex items-center justify-between">
+    <div className="h-full overflow-y-auto bg-background p-4 sm:p-6">
+      <div className="mb-5 flex items-center justify-between sm:mb-7">
         <div>
-          <h1 className="font-display text-2xl font-extrabold tracking-tight text-foreground">Dashboard</h1>
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">Dashboard</h1>
           <p className="mt-0.5 text-sm font-medium text-muted-foreground">Sales overview and performance</p>
         </div>
         <div className="hidden items-center gap-2 rounded-xl bg-card px-4 py-2.5 shadow-soft sm:flex">
@@ -49,13 +49,13 @@ export function DashboardView() {
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {stats.map((stat, idx) => {
           const Icon = stat.icon;
           return (
             <Card
               key={stat.label}
-              className="animate-fade-in-up p-5 hover:shadow-soft-md"
+              className="animate-fade-in-up p-4 hover:shadow-soft-md sm:p-5"
               style={{ animationDelay: `${idx * 60}ms` }}
             >
               <div className="flex items-center justify-between">
@@ -71,7 +71,7 @@ export function DashboardView() {
       </div>
 
       {/* Charts row */}
-      <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div className="mt-4 grid grid-cols-1 gap-3 sm:gap-4 lg:mt-6 lg:grid-cols-3">
         <Card className="p-5 lg:col-span-2">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="font-display text-base font-bold text-foreground">Top Products</h2>
@@ -145,7 +145,7 @@ export function DashboardView() {
       </div>
 
       {/* Recent orders */}
-      <Card className="mt-6 p-5">
+      <Card className="mt-4 p-4 sm:mt-6 sm:p-5">
         <h2 className="mb-4 font-display text-base font-bold text-foreground">Recent Orders</h2>
         {orders.length === 0 ? (
           <div className="flex h-40 flex-col items-center justify-center text-center">

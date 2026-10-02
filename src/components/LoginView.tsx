@@ -93,10 +93,10 @@ export function LoginView() {
       </div>
 
       {/* Right form panel */}
-      <div className="flex w-full items-center justify-center bg-background px-6 py-12 lg:w-1/2">
+      <div className="flex w-full items-center justify-center bg-background px-4 py-8 sm:px-6 sm:py-12 lg:w-1/2">
         <div className="w-full max-w-[400px] animate-fade-in-up">
-          <div className="mb-8 lg:hidden">
-            <picture className="mb-4 block h-14 w-52">
+          <div className="mb-6 lg:hidden sm:mb-8">
+            <picture className="mb-4 block h-12 w-44 sm:h-14 sm:w-52">
               <img src="/assets/logos/minimartLight.png" alt="MiniMart" className="h-full w-full object-contain dark:hidden" />
               <img src="/assets/logos/minimartDark.png" alt="MiniMart" className="hidden h-full w-full object-contain dark:block" />
             </picture>
