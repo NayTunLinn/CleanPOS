@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { ChevronDown, ChevronUp, Receipt, Search, FileText, X, Store, Printer, CreditCard, Banknote, Layers } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { formatCurrency, formatDate, formatTime } from '@/lib/format';
-import { Button, Card, Badge } from '@/components/ui';
+import { Button, Card, Badge, MoneyCell } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import type { Order, PaymentMethod } from '@/lib/types';
 
@@ -347,10 +347,8 @@ function InvoiceModal({ order, onClose }: { order: Order; onClose: () => void })
                     </div>
                   </td>
                   <td className="py-3 text-center text-sm font-semibold text-muted-foreground">{item.quantity}</td>
-                  <td className="py-3 text-right text-sm font-medium text-muted-foreground">{formatCurrency(item.product.price)}</td>
-                  <td className="py-3 text-right text-sm font-bold text-foreground">
-                    {formatCurrency(item.product.price * item.quantity)}
-                  </td>
+                  <td className="py-3 text-right"><div className="flex justify-end"><MoneyCell value={formatCurrency(item.product.price)} /></div></td>
+                  <td className="py-3 text-right"><div className="flex justify-end"><MoneyCell value={formatCurrency(item.product.price * item.quantity)} emphasis="strong" /></div></td>
                 </tr>
               ))}
             </tbody>

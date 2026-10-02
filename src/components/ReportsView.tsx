@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { FileText, Package, Download, Receipt, Calendar, TrendingUp, Sigma } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { formatCurrency, formatDate, formatTime } from '@/lib/format';
-import { Card, Button, Badge } from '@/components/ui';
+import { Card, Button, Badge, MoneyCell } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import type { Order, Product } from '@/lib/types';
 
@@ -239,9 +239,9 @@ function InvoiceReport({
                         {formatDate(o.createdAt)} · {formatTime(o.createdAt)}
                       </td>
                       <td className="px-4 py-3 text-right text-sm font-medium text-muted-foreground sm:px-5 sm:py-3.5">{itemCount}</td>
-                      <td className="px-4 py-3 text-right text-sm font-medium text-muted-foreground sm:px-5 sm:py-3.5">{formatCurrency(o.subtotal)}</td>
-                      <td className="px-4 py-3 text-right text-sm font-medium text-muted-foreground sm:px-5 sm:py-3.5">{formatCurrency(o.tax)}</td>
-                      <td className="px-4 py-3 text-right font-display text-sm font-extrabold text-foreground sm:px-5 sm:py-3.5">{formatCurrency(o.total)}</td>
+                      <td className="px-4 py-3 text-right sm:px-5 sm:py-3.5"><div className="flex justify-end"><MoneyCell value={formatCurrency(o.subtotal)} /></div></td>
+                      <td className="px-4 py-3 text-right sm:px-5 sm:py-3.5"><div className="flex justify-end"><MoneyCell value={formatCurrency(o.tax)} /></div></td>
+                      <td className="px-4 py-3 text-right sm:px-5 sm:py-3.5"><div className="flex justify-end"><MoneyCell value={formatCurrency(o.total)} emphasis="strong" /></div></td>
                       <td className="hidden px-4 py-3 sm:table-cell sm:px-5 sm:py-3.5">
                         <Badge variant="neutral" className="capitalize">{o.paymentMethod}</Badge>
                       </td>
@@ -255,9 +255,9 @@ function InvoiceReport({
                     GRAND TOTAL
                   </td>
                   <td className="px-4 py-3.5 text-right font-display text-sm font-extrabold text-foreground sm:px-5">{grandTotalItems}</td>
-                  <td className="px-4 py-3.5 text-right font-display text-sm font-extrabold text-foreground sm:px-5">{formatCurrency(grandTotalSubtotal)}</td>
-                  <td className="px-4 py-3.5 text-right font-display text-sm font-extrabold text-foreground sm:px-5">{formatCurrency(grandTotalTax)}</td>
-                  <td className="px-4 py-3.5 text-right font-display text-base font-extrabold text-primary sm:px-5">{formatCurrency(grandTotalTotal)}</td>
+                  <td className="px-4 py-3.5 text-right sm:px-5"><div className="flex justify-end"><MoneyCell value={formatCurrency(grandTotalSubtotal)} emphasis="strong" /></div></td>
+                  <td className="px-4 py-3.5 text-right sm:px-5"><div className="flex justify-end"><MoneyCell value={formatCurrency(grandTotalTax)} emphasis="strong" /></div></td>
+                  <td className="px-4 py-3.5 text-right sm:px-5"><div className="flex justify-end"><MoneyCell value={formatCurrency(grandTotalTotal)} emphasis="primary" className="text-base" /></div></td>
                   <td className="hidden sm:table-cell" />
                 </tr>
               </tfoot>
@@ -336,9 +336,9 @@ function ProductReport({
                     </td>
                     <td className="px-4 py-3 text-right text-sm font-bold text-foreground sm:px-5 sm:py-3.5">{row.qty}</td>
                     <td className="hidden px-4 py-3 text-right text-sm font-medium text-muted-foreground sm:table-cell sm:px-5 sm:py-3.5">{row.orderCount}</td>
-                    <td className="hidden px-4 py-3 text-right text-sm font-medium text-muted-foreground sm:table-cell sm:px-5 sm:py-3.5">{formatCurrency(row.grossSales)}</td>
-                    <td className="hidden px-4 py-3 text-right text-sm font-medium text-muted-foreground sm:table-cell sm:px-5 sm:py-3.5">{formatCurrency(row.taxAmount)}</td>
-                    <td className="px-4 py-3 text-right font-display text-sm font-extrabold text-primary sm:px-5 sm:py-3.5">{formatCurrency(row.netSales)}</td>
+                    <td className="hidden px-4 py-3 text-right sm:table-cell sm:px-5 sm:py-3.5"><div className="flex justify-end"><MoneyCell value={formatCurrency(row.grossSales)} /></div></td>
+                    <td className="hidden px-4 py-3 text-right sm:table-cell sm:px-5 sm:py-3.5"><div className="flex justify-end"><MoneyCell value={formatCurrency(row.taxAmount)} /></div></td>
+                    <td className="px-4 py-3 text-right sm:px-5 sm:py-3.5"><div className="flex justify-end"><MoneyCell value={formatCurrency(row.netSales)} emphasis="primary" /></div></td>
                     <td className="hidden px-4 py-3 sm:table-cell sm:px-5 sm:py-3.5">
                       <div className="flex items-center justify-end gap-2">
                         <div className="h-1.5 w-16 overflow-hidden rounded-full bg-muted sm:w-24">
@@ -362,9 +362,9 @@ function ProductReport({
                   </td>
                   <td className="px-4 py-3.5 text-right font-display text-sm font-extrabold text-foreground sm:px-5">{qtyGrandTotal}</td>
                   <td className="hidden sm:table-cell" />
-                  <td className="hidden px-4 py-3.5 text-right font-display text-sm font-extrabold text-muted-foreground sm:table-cell sm:px-5">{formatCurrency(grossSalesGrandTotal)}</td>
-                  <td className="hidden px-4 py-3.5 text-right font-display text-sm font-extrabold text-muted-foreground sm:table-cell sm:px-5">{formatCurrency(taxGrandTotal)}</td>
-                  <td className="px-4 py-3.5 text-right font-display text-base font-extrabold text-primary sm:px-5">{formatCurrency(netSalesGrandTotal)}</td>
+                  <td className="hidden px-4 py-3.5 text-right sm:table-cell sm:px-5"><div className="flex justify-end"><MoneyCell value={formatCurrency(grossSalesGrandTotal)} emphasis="strong" className="text-muted-foreground" /></div></td>
+                  <td className="hidden px-4 py-3.5 text-right sm:table-cell sm:px-5"><div className="flex justify-end"><MoneyCell value={formatCurrency(taxGrandTotal)} emphasis="strong" className="text-muted-foreground" /></div></td>
+                  <td className="px-4 py-3.5 text-right sm:px-5"><div className="flex justify-end"><MoneyCell value={formatCurrency(netSalesGrandTotal)} emphasis="primary" className="text-base" /></div></td>
                   <td className="hidden sm:table-cell" />
                 </tr>
               </tfoot>

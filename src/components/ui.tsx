@@ -83,3 +83,30 @@ export function Badge({ children, variant = 'neutral', className }: BadgeProps) 
     <span className={cn('badge', variants[variant], className)}>{children}</span>
   );
 }
+
+interface MoneyCellProps {
+  value: string;
+  emphasis?: 'default' | 'strong' | 'primary';
+  className?: string;
+}
+
+export function MoneyCell({ value, emphasis = 'default', className }: MoneyCellProps) {
+  const tone =
+    emphasis === 'strong'
+      ? 'font-display font-extrabold text-foreground'
+      : emphasis === 'primary'
+        ? 'font-display font-extrabold text-primary'
+        : 'font-medium text-muted-foreground';
+  return (
+    <span
+      title={value}
+      className={cn(
+        'block max-w-[160px] truncate text-right tabular-nums',
+        tone,
+        className,
+      )}
+    >
+      {value}
+    </span>
+  );
+}

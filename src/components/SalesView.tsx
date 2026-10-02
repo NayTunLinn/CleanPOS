@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { TrendingUp, DollarSign, CreditCard, Banknote, Calendar, Download, ShoppingBag, BarChart3 } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { formatCurrency, formatDate } from '@/lib/format';
-import { Card, Button } from '@/components/ui';
+import { Card, Button, MoneyCell } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import type { Category } from '@/lib/types';
 
@@ -263,7 +263,11 @@ export function SalesView() {
                   <td className="px-4 py-3 text-sm font-semibold text-foreground sm:px-5 sm:py-3.5">{date}</td>
                   <td className="px-4 py-3 text-right text-sm font-medium text-muted-foreground sm:px-5 sm:py-3.5">{data.orders}</td>
                   <td className="px-4 py-3 text-right text-sm font-medium text-muted-foreground sm:px-5 sm:py-3.5">{data.items}</td>
-                  <td className="px-4 py-3 text-right font-display text-sm font-extrabold text-foreground sm:px-5 sm:py-3.5">{formatCurrency(data.revenue)}</td>
+                  <td className="px-4 py-3 text-right sm:px-5 sm:py-3.5">
+                    <div className="flex justify-end">
+                      <MoneyCell value={formatCurrency(data.revenue)} emphasis="strong" />
+                    </div>
+                  </td>
                   <td className="px-4 py-3 sm:px-5 sm:py-3.5">
                     <div className="flex items-center justify-end gap-2">
                       <div className="h-1.5 w-12 overflow-hidden rounded-full bg-muted sm:w-24">
